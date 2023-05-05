@@ -22,6 +22,6 @@
   },
   "include": [
     "src",
-    "api"
-  ]
+    "src/apifunction"
+, "api/tempData.ts"  ]
 }

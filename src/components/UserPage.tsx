@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StickyButton from '../utils/StickyButton';
+import { fetchFeeds } from '../apifunction/minifluxAPI';
 
 const UserPage: React.FC = () => {
     const [list, setList] = useState()
@@ -16,6 +17,7 @@ const UserPage: React.FC = () => {
             <div>
                 <div>
                     filter option
+                    date
                 </div>
                 <div>
                     list

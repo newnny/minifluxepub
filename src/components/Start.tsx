@@ -2,21 +2,40 @@ import React, { useState } from 'react';
 import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
+import { fetchFeeds } from '../apifunction/minifluxAPI';
 
 
 const Start: React.FC = () => {
     const [showExplanation, setShowExplanation] = useState<boolean>(false)
     const [userToken, setUserToken] = useState<string>("")
+    const [userUrl, setUserUrl] = useState<string>("")
+    const [errorMessage, setErrorMessage] = useState<string>("")
+    const [userData, setUserData]= useState<[]>([])
 
     const navigate = useNavigate()
 
-    const handleTokenSubmit = (e: React.SyntheticEvent, token?: string) => {
+    const handleSubmit = async (e: React.SyntheticEvent, token?: string) => {
         e.preventDefault();
         const userToken = token
-        console.log(`submit ${userToken}`)
-
-        navigate(`/user/${userToken}`)
+        if (userToken) {
+           {/*const response = await fetch('/api/tempData', {
+                method: 'POST',
+                body: JSON.stringify({ userToken, userUrl }),
+            });
+            if (response.ok) {
+                navigate(`/user/${userToken}`)
+            }
+            else {
+                setErrorMessage("Please check your API token and URL again.")
+            }*/}
+            const response = await fetchFeeds(userToken)
+            setUserData(response)
+        } else {
+            setErrorMessage("Please check your API token and URL again.")
+        }
     }
+
+    console.log(userData, "userData")
 
     return (
         <div className='Landing-div-wrapper'>
@@ -34,14 +53,31 @@ const Start: React.FC = () => {
                     border: "1px solid gray",
                     padding: 10,
                     width: 300,
-                    fontSize: 16
+                    fontSize: 16,
+                    margin: 5
                 }}
             />
+            <input
+                value={userUrl}
+                onChange={e => setUserUrl(e.target.value)}
+                type="text"
+                placeholder="The URL of your Miniflux instance"
+                name="munifux-url"
+                style={{
+                    borderRadius: 5,
+                    border: "1px solid gray",
+                    padding: 10,
+                    width: 300,
+                    fontSize: 16,
+                    margin: 5
+                }}
+            />
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             <button
                 type='button'
                 className='main-Btn'
                 style={{ backgroundColor: '#FEB159', fontSize: 20, marginTop: 30 }}
-                onClick={e => handleTokenSubmit(e, userToken)}
+                onClick={e => handleSubmit(e, userToken)}
             >
                 Let’s take your data!
             </button>
@@ -70,7 +106,9 @@ const Start: React.FC = () => {
                 showExplanation &&
                 <p style={{ margin: 0, lineHeight: 1.5, color: 'grey' }}>
                     We need your Minifux API token in order to synchronise our software with your Minifux list.<br />
-                    You can find your API token in Minifux xxx page then copy it and past it here. <br />
+                    You can find your API token following these stpes.<br />
+                    <b>got to “Settings &gt; API Keys &gt; Create a new API key”</b><br />
+                    then copy it and past it here. <br />
                     easy peasy lemon squeezy!
                     <img
                         src={LemonIcon}
