@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-const apiUrl = 'https://example.com/miniflux/api/v1/me';
+const apiUrl = '/api/categories';
 
-export const fetchFeeds = async (token: string) => {
+export const fetchFeeds = async (token: string, url: string | undefined) => {
   try {
-    const response = await axios.get (apiUrl, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+    const response = await axios.post (apiUrl, {
+      userToken: token, 
+      userUrl: url
     });
     console.log(response, "res")
     

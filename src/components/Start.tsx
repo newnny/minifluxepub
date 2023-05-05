@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
-import { fetchFeeds } from '../apifunction/minifluxAPI';
+import { fetchFeeds } from '../apifunction/api';
 
 
 const Start: React.FC = () => {
@@ -14,21 +14,12 @@ const Start: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const handleSubmit = async (e: React.SyntheticEvent, token?: string) => {
+    const handleSubmit = async (e: React.SyntheticEvent, token?: string, url?:string) => {
         e.preventDefault();
         const userToken = token
+        const userUrl = url
         if (userToken) {
-           {/*const response = await fetch('/api/tempData', {
-                method: 'POST',
-                body: JSON.stringify({ userToken, userUrl }),
-            });
-            if (response.ok) {
-                navigate(`/user/${userToken}`)
-            }
-            else {
-                setErrorMessage("Please check your API token and URL again.")
-            }*/}
-            const response = await fetchFeeds(userToken)
+            const response = await fetchFeeds(userToken, userUrl)
             setUserData(response)
         } else {
             setErrorMessage("Please check your API token and URL again.")
@@ -77,7 +68,7 @@ const Start: React.FC = () => {
                 type='button'
                 className='main-Btn'
                 style={{ backgroundColor: '#FEB159', fontSize: 20, marginTop: 30 }}
-                onClick={e => handleSubmit(e, userToken)}
+                onClick={e => handleSubmit(e, userToken, userUrl)}
             >
                 Let’s take your data!
             </button>

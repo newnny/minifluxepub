@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import StickyButton from '../utils/StickyButton';
-import { fetchFeeds } from '../apifunction/minifluxAPI';
+import { fetchFeeds } from '../apifunction/api';
 
 const UserPage: React.FC = () => {
     const [list, setList] = useState()
