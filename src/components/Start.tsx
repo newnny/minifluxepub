@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
+import { useNavigate } from 'react-router-dom';
+
 
 const Start: React.FC = () => {
     const [showExplanation, setShowExplanation] = useState<boolean>(false)
     const [userToken, setUserToken] = useState<string>("")
 
+    const navigate = useNavigate()
+
     const handleTokenSubmit = (e: React.SyntheticEvent, token?: string) => {
         e.preventDefault();
         const userToken = token
         console.log(`submit ${userToken}`)
+
+        navigate(`/user/${userToken}`)
     }
 
     return (

@@ -1,7 +1,7 @@
-import React, { Fragment, useRef } from 'react';
+import React, { useRef } from 'react';
 import './App.css';
-import { Router, Routes, Route } from 'react-router-dom';
-import Main from './components/Main';
+import { Routes, Route } from 'react-router-dom';
+import SinglePageMain from './components/SinglePageMain';
 import Introduction from './components/Introduction';
 import Start from './components/Start';
 import UserPage from './components/UserPage';
@@ -10,38 +10,26 @@ const App: React.FC = () => {
   const introductionRef = useRef<HTMLDivElement>(null);
   const startRef = useRef<HTMLDivElement>(null);
 
-  const scrollToIntroduction = () => {
-    introductionRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const scrollToStart = () => {
-    startRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <p>xx staging</p>
-   /*<Routes>
-      <Route path="/" element={<Main scrollToIntroduction={scrollToIntroduction} scrollToStart={scrollToStart} />} />
-      <Route path="/intro">
-        <Fragment>
-          <div id='introduction' ref={introductionRef}>
+    <Routes>
+      <Route path="/" element={<SinglePageMain />} />
+      <Route path="/intro"
+        element={
+          <div id="introduction" ref={introductionRef}>
             <Introduction />
           </div>
-        </Fragment>
-      </Route>
-      <Route path="/get-started">
-        <Fragment>
-          <div id='start' ref={startRef}>
+        }
+      />
+      <Route path="/get-started"
+        element={
+          <div id="start" ref={startRef}>
             <Start />
           </div>
-        </Fragment>
-      </Route>
-      <Route path="/user">
-        <UserPage />
-      </Route>
-    </Routes >
-    */
-  );
+        }
+      />
+      <Route path="/user:userToken" element={<UserPage />} />
+    </Routes>
+  )
 }
 
 export default App;

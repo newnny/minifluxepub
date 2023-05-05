@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import StickyButton from '../utils/StickyButton';
-
 interface MainProps {
   scrollToIntroduction: () => void;
   scrollToStart: () => void;
@@ -15,10 +14,18 @@ const Main: React.FC<MainProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleClickTargetPage = (event: React.SyntheticEvent, target?: string) => {
+    if (target === "intro") {
+      scrollToIntroduction()
+    } else if (target === "start") {
+      scrollToStart()
+    }
+  }
+
   return (
     <div className='main'>
       <p className='main-bold'>
-        Make e-pub files from your Minifux list
+        Make e-pub files from your Miniflux list
       </p>
       <p className='main-text '>
         and bring it with you<br />
@@ -38,7 +45,7 @@ const Main: React.FC<MainProps> = ({
           type='button'
           className='main-Btn'
           style={{ backgroundColor: '#FEB159' }}
-          onClick={scrollToStart}
+          onClick={event => handleClickTargetPage(event, "start")}
         >
           Let’s get started!
         </button>
