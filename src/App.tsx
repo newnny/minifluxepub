@@ -27,7 +27,7 @@ const App: React.FC = () => {
           </div>
         }
       />
-      <Route path="/user:userToken" element={<UserPage />} />
+      <Route path="/user" element={<UserPage />} />
     </Routes>
   )
 }
