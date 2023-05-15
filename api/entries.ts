@@ -4,18 +4,17 @@ import fetch from 'node-fetch';
 export default async function (request: VercelRequest, response: VercelResponse) {
   const userToken = request.body.userToken
   const userUrl = request.body.userUrl
-
-  console.log(userToken)
+  const categoryId = request.body.categoryId
 
   // call miniflux api to get all the categories with provided API token and then return categories in response
 
-  const apiUrl = userUrl ? `${userUrl}/v1/categories` : 'https://reader.miniflux.app/v1/categories';
+  const apiUrl = userUrl ? `${userUrl}/v1/categories/${categoryId}/entries?order=id&direction=asc` : `https://reader.miniflux.app/v1/categories/${categoryId}/entries?order=id&direction=asc`;
   const apiResponse = await fetch(apiUrl, {
     headers: {
       "X-Auth-Token": `${userToken}`
     }
   });
-  const categories = await apiResponse.json();
+  const entries = await apiResponse.json();
 
-  response.send(categories);
+  response.send(entries);
 }

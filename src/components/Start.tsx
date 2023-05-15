@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
-import { fetchFeeds } from '../apifunction/api';
+import { FetchCategory } from '../apifunction/api';
 
+import { GlobalContext } from './Context';
 
 const Start: React.FC = () => {
     const [showExplanation, setShowExplanation] = useState<boolean>(false)
     const [userToken, setUserToken] = useState<string>("")
     const [userUrl, setUserUrl] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("")
-    const [userData, setUserData]= useState<[]>([])
+    const {dispatch} = useContext(GlobalContext)
 
     const navigate = useNavigate()
 
-    const handleSubmit = async (e: React.SyntheticEvent, token?: string, url?:string) => {
+    const handleSubmit = async (e: React.SyntheticEvent, token?: string, url?: string) => {
         e.preventDefault();
         const userToken = token
         const userUrl = url
         if (userToken) {
-            const response = await fetchFeeds(userToken, userUrl)
-            setUserData(response)
+            dispatch({type: 'SET_TOKEN', payload: userToken})
+            if(userUrl){
+                dispatch({type: 'SET_USER_URL', payload: userUrl})
+            }
+            const response = await FetchCategory(userToken, userUrl)
+            if (response) {
+                dispatch({type: 'GET_CATEGORY', payload: response})
+                navigate(`/user`)
+            }
         } else {
             setErrorMessage("Please check your API token and URL again.")
         }
     }
-
-    console.log(userData, "userData")
 
     return (
         <div className='Landing-div-wrapper'>

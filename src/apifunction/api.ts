@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-const apiUrl = '/api/categories';
+const getCategory = '/api/categories';
+const getFeeds = '/api/feeds'
+const getEntries = '/api/entries'
 
-export const fetchFeeds = async (token: string, url: string | undefined) => {
+
+export const FetchCategory = async (token: string, url: string | undefined) => {
   try {
-    const response = await axios.post (apiUrl, {
-      userToken: token, 
+    const response = await axios.post(getCategory, {
+      userToken: token,
       userUrl: url
     });
-    console.log(response, "res")
-    
     if (response.data) {
       const userData = response.data
-      console.log(response.data);
-      return(userData)
+      return (userData)
     } else {
       console.error('Failed to retrieve user data');
     }
@@ -21,3 +21,39 @@ export const fetchFeeds = async (token: string, url: string | undefined) => {
     console.error(error);
   }
 };
+
+export const FetchFeeds = async (token: string, url: string|undefined, categoryid: number, ) => {
+  try {
+    const response = await axios.post(getFeeds, {
+      userToken: token,
+      userUrl: url,
+      categoryId: categoryid
+    })
+    if (response.data) {
+      const userData = response.data
+      return (userData)
+    } else {
+      console.error('Failed to retrieve user data');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const FetchEntries = async (token: string, url: string|undefined, categoryid: number, ) => {
+  try {
+    const response = await axios.post(getEntries, {
+      userToken: token,
+      userUrl: url,
+      categoryId: categoryid
+    })
+    if (response.data) {
+      const userData = response.data
+      return (userData)
+    } else {
+      console.error('Failed to retrieve user data');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
