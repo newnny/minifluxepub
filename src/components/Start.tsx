@@ -3,15 +3,15 @@ import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
 import { FetchCategory } from '../apifunction/api';
-
 import { GlobalContext } from './Context';
+import '../App.css';
 
 const Start: React.FC = () => {
     const [showExplanation, setShowExplanation] = useState<boolean>(false)
     const [userToken, setUserToken] = useState<string>("")
     const [userUrl, setUserUrl] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("")
-    const {dispatch} = useContext(GlobalContext)
+    const { dispatch } = useContext(GlobalContext)
 
     const navigate = useNavigate()
 
@@ -20,13 +20,13 @@ const Start: React.FC = () => {
         const userToken = token
         const userUrl = url
         if (userToken) {
-            dispatch({type: 'SET_TOKEN', payload: userToken})
-            if(userUrl){
-                dispatch({type: 'SET_USER_URL', payload: userUrl})
+            dispatch({ type: 'SET_TOKEN', payload: userToken })
+            if (userUrl) {
+                dispatch({ type: 'SET_USER_URL', payload: userUrl })
             }
             const response = await FetchCategory(userToken, userUrl)
             if (response) {
-                dispatch({type: 'GET_CATEGORY', payload: response})
+                dispatch({ type: 'GET_CATEGORY', payload: response })
                 navigate(`/user`)
             }
         } else {
@@ -36,7 +36,7 @@ const Start: React.FC = () => {
 
     return (
         <div className='Landing-div-wrapper'>
-            <p style={{ fontSize: 30, fontWeight: 'bold' }}>
+            <p className='start-bold'>
                 Please provide your Miniflux API token.
             </p>
             <input
@@ -45,14 +45,7 @@ const Start: React.FC = () => {
                 type="text"
                 placeholder="Your API token"
                 name="munifux-token"
-                style={{
-                    borderRadius: 5,
-                    border: "1px solid gray",
-                    padding: 10,
-                    width: 300,
-                    fontSize: 16,
-                    margin: 5
-                }}
+                className='user-input'
             />
             <input
                 value={userUrl}
@@ -60,48 +53,33 @@ const Start: React.FC = () => {
                 type="text"
                 placeholder="The URL of your Miniflux instance"
                 name="munifux-url"
-                style={{
-                    borderRadius: 5,
-                    border: "1px solid gray",
-                    padding: 10,
-                    width: 300,
-                    fontSize: 16,
-                    margin: 5
-                }}
+                className='user-input'
             />
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+            {errorMessage &&
+                <p className='error-msg'>{errorMessage}</p>
+            }
             <button
                 type='button'
-                className='main-Btn'
-                style={{ backgroundColor: '#FEB159', fontSize: 20, marginTop: 30 }}
+                className='submit-Btn'
                 onClick={e => handleSubmit(e, userToken, userUrl)}
             >
                 Let’s take your data!
             </button>
             <button
                 onClick={() => setShowExplanation(!showExplanation)}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    border: 'none',
-                    backgroundColor: 'inherit',
-                    padding: 10,
-                    fontSize: 16
-                }}
+                className='info-Btn'
             >
                 <img
                     src={QuestionMark}
-                    style={{ width: 20, height: 20, paddingRight: 5 }}
+                    className='question-mark'
                 />
-                <p style={{ color: 'grey', fontWeight: 'bold' }}>
+                <p className='bold-grey'>
                     what is the API token and where can I get it?
                 </p>
             </button>
             {
                 showExplanation &&
-                <p style={{ margin: 0, lineHeight: 1.5, color: 'grey' }}>
+                <p className='explanation'>
                     We need your Minifux API token in order to synchronise our software with your Minifux list.<br />
                     You can find your API token following these stpes.<br />
                     <b>got to “Settings &gt; API Keys &gt; Create a new API key”</b><br />
@@ -109,7 +87,7 @@ const Start: React.FC = () => {
                     easy peasy lemon squeezy!
                     <img
                         src={LemonIcon}
-                        style={{ width: 20, height: 20, paddingLeft: 5 }}
+                        className='lemon-icon'
                     />
                 </p>
             }
