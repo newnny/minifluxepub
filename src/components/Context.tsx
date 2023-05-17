@@ -18,11 +18,11 @@ type CategoryState = {
 }
 
 type TokenState = {
-  token: string;
+  userToken: string;
 }
 
 type UrlState = {
-  userUrl: string;
+  userUrl: string | undefined;
 }
 
 type GlobalState = {
@@ -39,7 +39,7 @@ type Action =
   | { type: 'GET_ENTRIES'; payload: [] }
   | { type: 'GET_CATEGORY'; payload: [] }
   | { type: 'SET_TOKEN'; payload: string }
-  | { type: 'SET_USER_URL'; payload: string }
+  | { type: 'SET_USER_URL'; payload: string | undefined}
 
 
 const initialState: GlobalState = {
@@ -55,7 +55,7 @@ const initialState: GlobalState = {
     category: []
   },
   tokenState: {
-    token: ''
+    userToken: ''
   },
   urlState: {
     userUrl: ''
@@ -93,7 +93,7 @@ const reducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         tokenState: {
           ...state.tokenState,
-          token: action.payload
+          userToken: action.payload
         }
       };
     case 'SET_USER_URL':

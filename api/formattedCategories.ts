@@ -23,9 +23,11 @@ export default async function (request: VercelRequest, response: VercelResponse)
     formattedCategories.map(async (category) => {
       const result = await fetchEntriesFromDate(category.id, days, userToken, userUrl)
       return ({
-        category: category.title,
+        categoryId: category.id,
+        categoryTitle: category.title,
         total: result.total
       })
     }))
+    
   response.send(categoryWithAmount);
 }
