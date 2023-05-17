@@ -11,24 +11,26 @@ const App: React.FC = () => {
   const startRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Routes>
-      <Route path="/" element={<SinglePageMain />} />
-      <Route path="/intro"
-        element={
-          <div id="introduction" ref={introductionRef}>
-            <Introduction />
-          </div>
-        }
-      />
-      <Route path="/get-started"
-        element={
-          <div id="start" ref={startRef}>
-            <Start />
-          </div>
-        }
-      />
-      <Route path="/user" element={<UserPage />} />
-    </Routes>
+    <div className='App'>
+      <Routes>
+        <Route path="/" element={<SinglePageMain />} />
+        <Route path="/intro"
+          element={
+            <div id="introduction" ref={introductionRef}>
+              <Introduction />
+            </div>
+          }
+        />
+        <Route path="/get-started"
+          element={
+            <div id="start" ref={startRef}>
+              <Start />
+            </div>
+          }
+        />
+        <Route path="/user" element={<UserPage />} />
+      </Routes>
+    </div>
   )
 }
 

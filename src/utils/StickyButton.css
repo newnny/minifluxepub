@@ -3,11 +3,12 @@
     bottom: 20px;
     right: 20px;
     padding: 10px;
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     background-color: #FEB159;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     font-weight: 600;
+    font-size: 16px;
 }
