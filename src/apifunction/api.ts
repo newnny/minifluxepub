@@ -3,6 +3,7 @@ import axios from 'axios';
 const getCategory = '/api/categories';
 const getFeeds = '/api/feeds'
 const getEntries = '/api/entries'
+const getFormattedCategory = '/api/formattedCategories'
 
 
 export const FetchCategory = async (token: string, url: string | undefined) => {
@@ -22,7 +23,7 @@ export const FetchCategory = async (token: string, url: string | undefined) => {
   }
 };
 
-export const FetchFeeds = async (token: string, url: string|undefined, categoryid: number, ) => {
+export const FetchFeeds = async (token: string, url: string | undefined, categoryid: number,) => {
   try {
     const response = await axios.post(getFeeds, {
       userToken: token,
@@ -40,12 +41,30 @@ export const FetchFeeds = async (token: string, url: string|undefined, categoryi
   }
 }
 
-export const FetchEntries = async (token: string, url: string|undefined, categoryid: number, ) => {
+export const FetchEntries = async (token: string, url: string | undefined, categoryid: number,) => {
   try {
     const response = await axios.post(getEntries, {
       userToken: token,
       userUrl: url,
       categoryId: categoryid
+    })
+    if (response.data) {
+      const userData = response.data
+      return (userData)
+    } else {
+      console.error('Failed to retrieve user data');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const FetchFormattedCategory = async (days: number, token: string, url: string | undefined) => {
+  try {
+    const response = await axios.post(getFormattedCategory, {
+      userToken: token,
+      userUrl: url,
+      days: days
     })
     if (response.data) {
       const userData = response.data

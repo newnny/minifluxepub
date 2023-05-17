@@ -4,6 +4,14 @@ import React, { createContext, useReducer } from 'react';
 //'CreateContext' function is used to create a category object that allows you to share data between components
 //'useContext' hook is used to access the current category value.
 //'useReducer' is an alternative to useState that allows you to manage complex state logic in a more centralized way.
+type FormattedCategoryState = {
+  formattedCategories: []
+}
+
+type EntriesState = {
+  total: number;
+  entries: [];
+}
 
 type CategoryState = {
   category: [];
@@ -18,23 +26,31 @@ type UrlState = {
 }
 
 type GlobalState = {
+  formattedCategoryState: FormattedCategoryState;
+  entriesState: EntriesState;
   categoryState: CategoryState;
   tokenState: TokenState;
   urlState: UrlState;
 }
 
 type Action =
-// the | symbol represents a union type and is used to define multiple possible types for a single variable or property.
+  // the | symbol represents a union type and is used to define multiple possible types for a single variable or property. 
+  | { type: 'GET_FORMATTED_CATEGORY'; payload: [] }
+  | { type: 'GET_ENTRIES'; payload: [] }
   | { type: 'GET_CATEGORY'; payload: [] }
   | { type: 'SET_TOKEN'; payload: string }
   | { type: 'SET_USER_URL'; payload: string }
 
-type GlobalContextProviderProps = {
-  children: React.ReactNode
-}
 
 const initialState: GlobalState = {
   //The initialState represents the initial values of all three states. The reducer function handles the state updates based on the dispatched actions.
+  formattedCategoryState: {
+    formattedCategories: []
+  },
+  entriesState: {
+    total: 0,
+    entries: []
+  },
   categoryState: {
     category: []
   },
@@ -48,6 +64,22 @@ const initialState: GlobalState = {
 
 const reducer = (state: GlobalState, action: Action): GlobalState => {
   switch (action.type) {
+    case 'GET_FORMATTED_CATEGORY':
+      return {
+        ...state,
+        formattedCategoryState: {
+          ...state.formattedCategoryState,
+          formattedCategories: action.payload
+        }
+      };
+    case 'GET_ENTRIES':
+      return {
+        ...state,
+        entriesState: {
+          ...state.entriesState,
+          entries: action.payload
+        }
+      };
     case 'GET_CATEGORY':
       return {
         ...state,
@@ -84,6 +116,10 @@ export const GlobalContext = createContext<{
   state: initialState,
   dispatch: () => { },
 });
+
+type GlobalContextProviderProps = {
+  children: React.ReactNode
+}
 
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
