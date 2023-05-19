@@ -59,7 +59,7 @@ export const FetchEntries = async (token: string, url: string | undefined, categ
   }
 }
 
-export const FetchFormattedCategory = async (days: number, token: string, url: string | undefined) => {
+export const FetchFormattedCategory = async (days: number | undefined, token: string, url: string | undefined) => {
   try {
     const response = await axios.post(getFormattedCategory, {
       userToken: token,

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { fetchCategories, fetchEntriesFromDate } from './miniflux';
+import { fetchCategories, fetchEntriesFromDate, fetchEntries } from './miniflux';
 
 // api to fetch all category names and entry amount for a given time frame
 
@@ -27,7 +27,24 @@ export default async function (request: VercelRequest, response: VercelResponse)
         categoryTitle: category.title,
         total: result.total
       })
-    }))
-    
-  response.send(categoryWithAmount);
+    })
+  )
+
+  const categoryWithAmountAllPeriods = await Promise.all(
+    formattedCategories.map(async (category) => {
+      const result = await fetchEntries(category.id, userToken, userUrl)
+      return ({
+        categoryId: category.id,
+        categoryTitle: category.title,
+        total: result.total
+      })
+    })
+  )
+
+  if (days) {
+    response.send(categoryWithAmount);
+  } else {
+    response.send(categoryWithAmountAllPeriods);
+  }
+
 }

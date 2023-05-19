@@ -7,6 +7,7 @@ import { GlobalContext } from './Context';
 import { FetchFormattedCategory } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
+import CheckBox from '../utils/CheckBox';
 
 interface categoryType {
     categoryId: number;
@@ -15,15 +16,21 @@ interface categoryType {
 }
 
 const UserPage: React.FC = () => {
-    const [datePeriod, setDatePeriod] = useState<string>("")
     const [categories, setCategories] = useState<categoryType[]>([])
     const [showDateFilter, setShowDateFilter] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>("")
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+    const [selectedDate, setSelectedDate] = useState<number | undefined>(7)
+    const [selectedCategories, setSelectedCategories] = useState<object[]>([])
+
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         if (formattedCategoryState && formattedCategoryState.formattedCategories && formattedCategoryState.formattedCategories.length > 0) {
@@ -32,28 +39,26 @@ const UserPage: React.FC = () => {
         }
     }, [formattedCategoryState])
 
-    const handleChangeDate = async (e: React.SyntheticEvent, days?: number) => {
+    const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
         const userToken = tokenState.userToken
         const userUrl = urlState.userUrl
-        if (days) {
-            try {
-                setLoading(true);
-                const result = await FetchFormattedCategory(days, userToken, userUrl)
-                if (result) {
-                    await dispatch({ type: 'GET_FORMATTED_CATEGORY', payload: result })
-                }
-            } catch (error) {
-                console.error('Something went wrong while dispatch the data');
-            } finally {
-                setLoading(false);
+        setSelectedDate(days)
+        try {
+            setLoading(true);
+            const result = await FetchFormattedCategory(days, userToken, userUrl)
+            if (result) {
+                await dispatch({ type: 'GET_FORMATTED_CATEGORY', payload: result })
             }
-        } else {
-            setErrorMessage("Something went wrong")
+        } catch (error) {
+            console.error('Something went wrong while dispatch the data');
+        } finally {
+            setLoading(false);
         }
     }
-    const handleOpenFeeds = async (e: React.SyntheticEvent, id: number) => {
-        console.log("clicked")
+
+    const handleSelectCategory = async (id: number, checked: boolean) => {
+        setIsChecked(checked);
     }
 
     const handleConvertFiles = () => {
@@ -70,28 +75,42 @@ const UserPage: React.FC = () => {
                     <br />
                     This action will automatically update the data from today's date to the period you select.
                 </p>
-                {/*<div style={{ display: "flex" }}>
-                    <input
-                        value={datePeriod}
-                        onChange={e => setDatePeriod(e.target.value)}
-                        type="text"
-                        placeholder="dd/mm/yyyy"
-                        name="start-date"
-                        className='date-input'
-                    />
-        </div>*/}
                 <div className='userPage-date-Btn-group'>
-                    <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 7)}>
+                    <button
+                        className={selectedDate === 7 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, 7)}
+                    >
                         Last 1W
                     </button>
-                    <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 14)}>
+                    <button
+                        className={selectedDate === 14 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, 14)}
+                    >
                         Last 2W
                     </button>
-                    <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 30)}>
+                    <button
+                        className={selectedDate === 31 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, 31)}
+                    >
                         Last 1M
                     </button>
-                    <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 180)}>
+                    <button
+                        className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, 180)}
+                    >
                         Last 6M
+                    </button>
+                    <button
+                        className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, 180)}
+                    >
+                        Last 6M
+                    </button>
+                    <button
+                        className={selectedDate === undefined ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                        onClick={(e) => handleChangeDate(e, undefined)}
+                    >
+                        All time periods
                     </button>
                 </div>
             </div>
@@ -126,45 +145,55 @@ const UserPage: React.FC = () => {
                         <br />
                         This action will automatically update the data from today's date to the period you select.
                     </p>
-                    {/*<div style={{ display: "flex" }}>
-                        <input
-                            value={datePeriod}
-                            onChange={e => setDatePeriod(e.target.value)}
-                            type="text"
-                            placeholder="dd/mm/yyyy"
-                            name="start-date"
-                            className='date-input'
-                        />
-    </div>*/}
                     <div className='userPage-date-Btn-group'>
-                        <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 7)}>
+                        <button
+                            className={selectedDate === 7 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 7)}
+                        >
                             Last 1W
                         </button>
-                        <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 14)}>
+                        <button
+                            className={selectedDate === 14 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 14)}
+                        >
                             Last 2W
                         </button>
-                        <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 30)}>
+                        <button
+                            className={selectedDate === 31 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 31)}
+                        >
                             Last 1M
                         </button>
-                        <button className='userPage-date-Btn' onClick={(e) => handleChangeDate(e, 180)}>
+                        <button
+                            className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 180)}
+                        >
                             Last 6M
+                        </button>
+                        <button
+                            className={selectedDate === undefined ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, undefined)}
+                        >
+                            All time periods
                         </button>
                     </div>
                 </div>
                 <div className='userPage-middle-section'>
                     {loading ?
                         <Loading /> :
-                        <div className='userPage-category-Btn-group'>
+                        <div className='userPage-category-group'>
                             {categories && categories.length > 0 &&
                                 categories.map((category, index) =>
-                                    <button
-                                        className='userPage-category-Btn'
-                                        key={index}
-                                        onClick={e => handleOpenFeeds(e, category.categoryId)}
-                                    >
-                                        {`${category.categoryTitle} (${category.total})`}
+                                    <div key={category.categoryId} className='userPage-category-item'>
+                                        <CheckBox
+                                            isChecked={isChecked}
+                                            label={""}
+                                            onChange={handleSelectCategory}
+                                            id={category.categoryId}
 
-                                    </button>
+                                        />
+                                        {`${category.categoryTitle} (${category.total})`}
+                                    </div>
                                 )
                             }
                         </div>
@@ -172,12 +201,12 @@ const UserPage: React.FC = () => {
                 </div>
                 <div className='userPage-right-section'>
                 </div>
+
                 <StickyButton
                     onClick={handleConvertFiles}
                     buttonText={"Make E-pub files"}
                 />
             </div>
-
         </>
 
     )
