@@ -10,7 +10,7 @@ interface valueProps{
 interface CheckBoxProps {
   isChecked: boolean;
   label: string | undefined;
-  onChange: (id: number, value:valueProps) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>, id: number, value:valueProps) => void;
   id: number;
   value: valueProps;
 }
@@ -24,7 +24,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    onChange(id, value);
+    onChange(event, id, value);
   };
 
   return (

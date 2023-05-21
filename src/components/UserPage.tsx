@@ -21,7 +21,8 @@ const UserPage: React.FC = () => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<number | undefined>(7)
     const [selectedCategories, setSelectedCategories] = useState<categoryType[]>([])
-    const [selectedCategoryId, setSelectedCategoryId] = useState<number | undefined>()
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number>()
+    const [btnIndex, setBtnIndex] = useState(-1)
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
@@ -57,42 +58,25 @@ const UserPage: React.FC = () => {
         }
     }
 
-    const handleSelectCategory = async (id: number, value: categoryType) => {
-        
-        if (selectedCategories.length > 0 && selectedCategories.map(c => c.categoryId).includes(id)) {
-            if (selectedCategories.filter(c => c.categoryId !== id)) {
-                const arr: categoryType[] = selectedCategories.filter(c => c.categoryId !== id)
-                //if the clicked Id is not in the selectedCategory array, then it will be pushed to the array and the checkbox will be checked..
-                //if the clicked Id is already in the selectedCategory array, then it will undo/uncheck the checkbox.
-                setSelectedCategories(arr)
-            }
+    const handleSelectCategory = async (event: React.ChangeEvent<HTMLInputElement>, id: number, value: categoryType, index: number) => {
+        event.preventDefault();
+        const idx = selectedCategories.map(e => e).indexOf(value);
+        if (idx > -1) {
+            setIsChecked(false)
+            setSelectedCategories([
+                ...selectedCategories.slice(0, idx),
+                ...selectedCategories.slice(idx + 1)
+            ]);
         } else {
-            selectedCategories.push(value)
-            const check:boolean = categories.map(c => c.categoryId === id) ? true: false
-            setIsChecked(check)
+            setSelectedCategories([...selectedCategories, ...[value]]);
+            setIsChecked(true)
         }
         setSelectedCategoryId(id)
+        setBtnIndex(index)
     }
 
-    useEffect(() => {
-        setIsChecked(false)
-    }, [])
-
-    useEffect(() => {
-        if (selectedCategoryId && categories.length > 0) {
-            if (categories.find(c => c.categoryId === selectedCategoryId)) {
-                return setIsChecked(false)
-            } else {
-                return setIsChecked(true)
-            }
-        } else {
-            return;
-        }
-    }, [selectedCategoryId])
-
-    console.log(isChecked, "isChecked?")
-    console.log(selectedCategoryId, "selectedCategoryId")
-
+    console.log(selectedCategories, "selectedCategories")
+    console.log(isChecked, "isChecked")
 
     const handleConvertFiles = () => {
         console.log("converting")
@@ -219,9 +203,9 @@ const UserPage: React.FC = () => {
                                 categories.map((category, index) =>
                                     <div key={category.categoryId} className='userPage-category-item'>
                                         <CheckBox
-                                            isChecked={isChecked}
+                                            isChecked={(btnIndex === index) ? true : false}
                                             label={`${category.categoryTitle} (${category.total})`}
-                                            onChange={() => handleSelectCategory(category.categoryId, category)}
+                                            onChange={(event) => handleSelectCategory(event, category.categoryId, category, index)}
                                             id={category.categoryId}
                                             value={category}
                                         />
