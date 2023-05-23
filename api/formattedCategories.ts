@@ -25,7 +25,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
       return ({
         categoryId: category.id,
         categoryTitle: category.title,
-        total: result.total
+        total: result.total,
+        entryId: result.entries.map(entry => entry.id)
       })
     })
   )
@@ -36,7 +37,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
       return ({
         categoryId: category.id,
         categoryTitle: category.title,
-        total: result.total
+        total: result.total,
+        entryId: result.entries.map(entry => entry.id)
       })
     })
   )

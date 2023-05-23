@@ -4,6 +4,7 @@ const getCategory = '/api/categories';
 const getFeeds = '/api/feeds'
 const getEntries = '/api/entries'
 const getFormattedCategory = '/api/formattedCategories'
+const getOriginalArticle = '/api/originalArticle'
 
 
 export const FetchCategory = async (token: string, url: string | undefined) => {
@@ -75,4 +76,23 @@ export const FetchFormattedCategory = async (days: number | undefined, token: st
   } catch (error) {
     console.error(error);
   }
+}
+
+export const FetchOriginalArticle = async (entryId: number, token: string, url: string | undefined) => {
+  try {
+    const response = await axios.post(getOriginalArticle, {
+      entryId:entryId,
+      userToken: token,
+      userUrl: url,
+    })
+    if (response.data) {
+      const userData = response.data
+      return (userData)
+    } else {
+      console.error('Failed to retrieve user data');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
 }

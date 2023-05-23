@@ -4,14 +4,20 @@ import HomeIcon from '../icons/home-svgrepo-com.svg'
 import SettingIcon from '../icons/modify-svgrepo-com.svg'
 import StickyButton from '../utils/StickyButton';
 import { GlobalContext } from './Context';
-import { FetchFormattedCategory } from '../apifunction/api';
+import { FetchFormattedCategory, FetchOriginalArticle } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
+import ContentLoading from '../utils/ContentLoading';
 interface categoryType {
     categoryId: number;
     categoryTitle: string;
     total: number;
+    entryId: number[];
+}
+
+interface contentRes {
+    content: string;
 }
 
 const UserPage: React.FC = () => {
@@ -23,9 +29,12 @@ const UserPage: React.FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<categoryType[]>([])
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>()
     const [btnIndex, setBtnIndex] = useState(-1)
+    const [contents, setContents] = useState<string[]>([])
+    const [contentLoading, setContentLoading] = useState<boolean>(false);
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
+
 
     const navigate = useNavigate()
 
@@ -74,6 +83,30 @@ const UserPage: React.FC = () => {
         setSelectedCategoryId(id)
         setBtnIndex(index)
     }
+
+    useEffect(() => {
+        async function fetchCentent() {
+            try {
+                setContentLoading(true);
+                const contentsRes: string[] = [];
+                await Promise.all(selectedCategories.map(async category => {
+                    await Promise.all(category.entryId.map(async id => {
+                        const result: contentRes = await FetchOriginalArticle(id, tokenState.userToken, urlState.userUrl)
+                        contentsRes.push(result.content)
+                    }))
+                }))
+                console.log(contentsRes, "contentsRes")
+                setContents(contentsRes)
+            } catch (error) {
+                console.error('Something went wrong while dispatch the data');
+            } finally {
+                setContentLoading(false);
+            }
+        }
+        fetchCentent()
+    }, [selectedCategories])
+
+    console.log(contents, "contents")
 
     console.log(selectedCategories, "selectedCategories")
     console.log(isChecked, "isChecked")
@@ -216,8 +249,8 @@ const UserPage: React.FC = () => {
                     }
                 </div>
                 <div className='userPage-right-section'>
+                    {contentLoading && <p>Selected Categoy's contents are loading, please wait a seconds.</p>}
                 </div>
-
                 <StickyButton
                     onClick={handleConvertFiles}
                     buttonText={"Make E-pub files"}

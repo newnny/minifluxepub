@@ -1,11 +1,22 @@
 interface Category {
-  id: number,
-  title: String
+  id: number;
+  title: String;
 }
-
+interface Entries {
+  id: number;
+  feed_id: number;
+  title: string;
+  author: string;
+  contents: string;
+  url: string;
+  published_at: string;
+}
 interface EntriesResponse {
-  total: number,
-  entries: Object[]
+  total: number;
+  entries: Entries[]; // Use `Entries[]` to indicate an array of `Entries`
+}
+interface contentRes {
+  content: string;
 }
 
 // general function to call miniflux api
@@ -36,4 +47,8 @@ export async function fetchEntriesFromDate(categoryId: number, days: number, use
   const getDate: Date = new Date(new Date().setDate(new Date().getDate() - days))
   const unixTimestamp = Math.floor(getDate.getTime() / 1000);
   return (await callAPI(`categories/${categoryId}/entries?order=id&direction=asc&after=${unixTimestamp}`, userToken, userUrl))
+}
+
+export async function fetchOriginalArticle(entryId: number, userToken: String, userUrl: String | undefined): Promise<contentRes> {
+  return (await callAPI(`entries/${entryId}/fetch-content`, userToken, userUrl))
 }
