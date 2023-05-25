@@ -5,7 +5,7 @@ const getFeeds = '/api/feeds'
 const getEntries = '/api/entries'
 const getFormattedCategory = '/api/formattedCategories'
 const getOriginalArticle = '/api/originalArticle'
-
+const getEpubFile = '/api/generateEpub'
 
 export const FetchCategory = async (token: string, url: string | undefined) => {
   try {
@@ -81,7 +81,7 @@ export const FetchFormattedCategory = async (days: number | undefined, token: st
 export const FetchOriginalArticle = async (entryId: number, token: string, url: string | undefined) => {
   try {
     const response = await axios.post(getOriginalArticle, {
-      entryId:entryId,
+      entryId: entryId,
       userToken: token,
       userUrl: url,
     })
@@ -94,5 +94,17 @@ export const FetchOriginalArticle = async (entryId: number, token: string, url: 
   } catch (error) {
     console.error(error);
   }
+}
 
+export const FetchEpubFiles = async (data: object) => {
+  try {
+    const response = await axios.post(getEpubFile, data)
+    if (response.data) {
+      return (response.data)
+    } else {
+      console.error('Failed to retrieve user data');
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }

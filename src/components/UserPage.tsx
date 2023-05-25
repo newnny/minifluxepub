@@ -4,20 +4,34 @@ import HomeIcon from '../icons/home-svgrepo-com.svg'
 import SettingIcon from '../icons/modify-svgrepo-com.svg'
 import StickyButton from '../utils/StickyButton';
 import { GlobalContext } from './Context';
-import { FetchFormattedCategory, FetchOriginalArticle } from '../apifunction/api';
+import { FetchFormattedCategory, FetchEpubFiles } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
-import ContentLoading from '../utils/ContentLoading';
+
+interface entriesType {
+    entryId: number;
+    title: string;
+    author: string;
+    content: string;
+}
 interface categoryType {
     categoryId: number;
     categoryTitle: string;
     total: number;
     entryId: number[];
+    entries: entriesType[];
 }
 
+interface epubContent {
+    title: string;
+    author: string;
+    data: string
+}
 interface contentRes {
-    content: string;
+    title: string,
+    author: string,
+    content: epubContent[]
 }
 
 const UserPage: React.FC = () => {
@@ -29,7 +43,11 @@ const UserPage: React.FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<categoryType[]>([])
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>()
     const [btnIndex, setBtnIndex] = useState(-1)
-    const [contents, setContents] = useState<string[]>([])
+    const [contents, setContents] = useState<contentRes>({
+        title: '',
+        author: '',
+        content: []
+    })
     const [contentLoading, setContentLoading] = useState<boolean>(false);
 
     const { state, dispatch } = useContext(GlobalContext)
@@ -70,49 +88,44 @@ const UserPage: React.FC = () => {
     const handleSelectCategory = async (event: React.ChangeEvent<HTMLInputElement>, id: number, value: categoryType, index: number) => {
         event.preventDefault();
         const idx = selectedCategories.map(e => e).indexOf(value);
-        if (idx > -1) {
-            setIsChecked(false)
-            setSelectedCategories([
-                ...selectedCategories.slice(0, idx),
-                ...selectedCategories.slice(idx + 1)
-            ]);
-        } else {
-            setSelectedCategories([...selectedCategories, ...[value]]);
-            setIsChecked(true)
+        try {
+            setContentLoading(true)
+            if (idx > -1) {
+                setIsChecked(false)
+                setSelectedCategories([
+                    ...selectedCategories.slice(0, idx),
+                    ...selectedCategories.slice(idx + 1)
+                ]);
+            } else {
+                setSelectedCategories([...selectedCategories, ...[value]]);
+                setIsChecked(true)
+            }
+        } finally {
+            setContentLoading(false)
         }
         setSelectedCategoryId(id)
         setBtnIndex(index)
     }
 
     useEffect(() => {
-        async function fetchCentent() {
-            try {
-                setContentLoading(true);
-                const contentsRes: string[] = [];
-                await Promise.all(selectedCategories.map(async category => {
-                    await Promise.all(category.entryId.map(async id => {
-                        const result: contentRes = await FetchOriginalArticle(id, tokenState.userToken, urlState.userUrl)
-                        contentsRes.push(result.content)
-                    }))
-                }))
-                console.log(contentsRes, "contentsRes")
-                setContents(contentsRes)
-            } catch (error) {
-                console.error('Something went wrong while dispatch the data');
-            } finally {
-                setContentLoading(false);
-            }
-        }
-        fetchCentent()
+        const options = {
+            title: 'Generated E-pub file',
+            author: 'E-pub binder',
+            content: selectedCategories.length > 0 ? selectedCategories.flatMap(select => select.entries).map(entry => ({
+                //I have to use flatMap() to flatten the nested arrya
+                //otherwise it ends up this format: entriesType[][]
+                title: entry.title,
+                author: entry.author,
+                data: entry.content
+            })) : []
+        };
+        setContents(options)
     }, [selectedCategories])
 
-    console.log(contents, "contents")
 
-    console.log(selectedCategories, "selectedCategories")
-    console.log(isChecked, "isChecked")
-
-    const handleConvertFiles = () => {
-        console.log("converting")
+    const handleConvertFiles = async () => {
+        const result = contents.content.length > 0 && await FetchEpubFiles(contents)
+        console.log(result)
     }
 
     const dateField = () => {
