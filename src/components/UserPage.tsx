@@ -26,7 +26,7 @@ interface categoryType {
 interface epubContent {
     title: string;
     author: string;
-    data: string
+    content: string
 }
 interface contentRes {
     title: string,
@@ -116,7 +116,7 @@ const UserPage: React.FC = () => {
                 //otherwise it ends up this format: entriesType[][]
                 title: entry.title,
                 author: entry.author,
-                data: entry.content
+                content: entry.content
             })) : []
         };
         setContents(options)
@@ -125,6 +125,12 @@ const UserPage: React.FC = () => {
 
     const handleConvertFiles = async () => {
         const result = contents.content.length > 0 && await FetchEpubFiles(contents)
+        const url = window.URL.createObjectURL(new Blob([result],{ type: "application/epub" }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'my_ebook.epub');
+        document.body.appendChild(link);
+        link.click();
         console.log(result)
     }
 
