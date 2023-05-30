@@ -1,9 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-//const Epub = require('epub-gen-memory');
-
-import { EPub, optionsDefaults, chapterDefaults } from 'epub-gen-memory';
-
+import { EPub } from 'epub-gen-memory';
 
 export default async function (request: VercelRequest, response: VercelResponse) {
   let options = request.body
@@ -12,18 +9,15 @@ export default async function (request: VercelRequest, response: VercelResponse)
     retryTimes: 1,
     fetchTimeout: 10,
     ignoreFailedDownloads: true,
-    version:3,
     verbose: true
   }
 
-  try{
-   // console.log(options, options.content)
-  
-  const epub = new EPub(options, options.content);
-  const epubBuffer = await epub.genEpub();
-  response.send(epubBuffer);
-} catch (error) {
-  console.error('Error generating ePub:', error);
-  response.status(500).send('Error generating ePub');
-}
+  try {
+    const epub = new EPub(options, options.content);
+    const epubBuffer = await epub.genEpub()
+    response.send(epubBuffer);
+  } catch (error) {
+    console.error('Error generating ePub:', error);
+    response.status(500).send('Error generating ePub');
+  }
 }

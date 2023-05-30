@@ -8,7 +8,6 @@ import { FetchFormattedCategory, FetchEpubFiles } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
-
 interface entriesType {
     entryId: number;
     title: string;
@@ -26,7 +25,7 @@ interface categoryType {
 interface epubContent {
     title: string;
     author: string;
-    content: string
+    content: string;
 }
 interface contentRes {
     title: string,
@@ -52,7 +51,6 @@ const UserPage: React.FC = () => {
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
-
 
     const navigate = useNavigate()
 
@@ -109,13 +107,13 @@ const UserPage: React.FC = () => {
 
     useEffect(() => {
         const options = {
-            title: 'Generated E-pub file',
+            title: selectedCategories.length ===1 ? selectedCategories[0].categoryTitle : selectedCategories.flatMap(s => s.categoryTitle).join(','),
             author: 'E-pub binder',
             content: selectedCategories.length > 0 ? selectedCategories.flatMap(select => select.entries).map(entry => ({
                 //I have to use flatMap() to flatten the nested arrya
                 //otherwise it ends up this format: entriesType[][]
                 title: entry.title,
-                author: entry.author,
+                author: entry.author ? entry.author : "",
                 content: entry.content
             })) : []
         };
@@ -125,13 +123,14 @@ const UserPage: React.FC = () => {
 
     const handleConvertFiles = async () => {
         const result = contents.content.length > 0 && await FetchEpubFiles(contents)
-        const url = window.URL.createObjectURL(new Blob([result],{ type: "application/epub" }));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'my_ebook.epub');
-        document.body.appendChild(link);
-        link.click();
-        console.log(result)
+        if (result) {
+            const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'ebook.epub');
+            document.body.appendChild(link);
+            link.click();
+        }
     }
 
     const dateField = () => {
