@@ -47,6 +47,30 @@
   text-align: center;
 }
 
+.introduction-divided-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.video-size {
+  width: 750px;
+  height: 500px
+}
+
+
+@media screen and (max-width: 700px) {
+  .introduction-divided-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-size {
+    width: 430px;
+    height: 200px
+  }
+}
+
+
 .start-bold {
   font-size: 30px;
   font-weight: bold;
@@ -270,6 +294,7 @@
   border-radius: 30px;
   cursor: pointer;
 }
+
 .userPage-reset-Btn:hover {
   width: 100px;
   padding: 3px;

@@ -8,8 +8,8 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, //allows importing modules using default imports
+    "allowSyntheticDefaultImports": true, //enables synthetic default imports for modules that don't provide them.
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
@@ -22,6 +22,8 @@
   },
   "include": [
     "src",
-    "src/apifunction"
-, "api/tempData.ts"  ]
+    "src/apifunction",
+    "api/tempData.ts",
+    "src/types"
+  ]
 }
