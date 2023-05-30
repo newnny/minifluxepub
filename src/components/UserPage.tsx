@@ -20,6 +20,7 @@ interface categoryType {
     total: number;
     entryId: number[];
     entries: entriesType[];
+    checked: boolean;
 }
 
 interface epubContent {
@@ -37,17 +38,13 @@ const UserPage: React.FC = () => {
     const [categories, setCategories] = useState<categoryType[]>([])
     const [showDateFilter, setShowDateFilter] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false);
-    const [isChecked, setIsChecked] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<number | undefined>(7)
     const [selectedCategories, setSelectedCategories] = useState<categoryType[]>([])
-    const [selectedCategoryId, setSelectedCategoryId] = useState<number>()
-    const [btnIndex, setBtnIndex] = useState(-1)
     const [contents, setContents] = useState<contentRes>({
         title: '',
         author: '',
         content: []
     })
-    const [contentLoading, setContentLoading] = useState<boolean>(false);
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
@@ -83,31 +80,24 @@ const UserPage: React.FC = () => {
         }
     }
 
-    const handleSelectCategory = async (event: React.ChangeEvent<HTMLInputElement>, id: number, value: categoryType, index: number) => {
+    const handleSelectCategory = async (event: React.ChangeEvent<HTMLInputElement>, value: categoryType) => {
         event.preventDefault();
+        //if it's included then return 0, if not return -1
         const idx = selectedCategories.map(e => e).indexOf(value);
-        try {
-            setContentLoading(true)
-            if (idx > -1) {
-                setIsChecked(false)
-                setSelectedCategories([
-                    ...selectedCategories.slice(0, idx),
-                    ...selectedCategories.slice(idx + 1)
-                ]);
-            } else {
-                setSelectedCategories([...selectedCategories, ...[value]]);
-                setIsChecked(true)
-            }
-        } finally {
-            setContentLoading(false)
+        //slice: returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included)
+        if (idx > -1) {
+            setSelectedCategories([
+                ...selectedCategories.slice(0, idx),
+                ...selectedCategories.slice(idx + 1)
+            ]);
+        } else {
+            setSelectedCategories([...selectedCategories, ...[value]]);
         }
-        setSelectedCategoryId(id)
-        setBtnIndex(index)
     }
 
     useEffect(() => {
         const options = {
-            title: selectedCategories.length ===1 ? selectedCategories[0].categoryTitle : selectedCategories.flatMap(s => s.categoryTitle).join(','),
+            title: selectedCategories.length === 1 ? selectedCategories[0].categoryTitle : selectedCategories.flatMap(s => s.categoryTitle).join(', '),
             author: 'E-pub binder',
             content: selectedCategories.length > 0 ? selectedCategories.flatMap(select => select.entries).map(entry => ({
                 //I have to use flatMap() to flatten the nested arrya
@@ -250,14 +240,19 @@ const UserPage: React.FC = () => {
                     {loading ?
                         <Loading /> :
                         <div className='userPage-category-group'>
+                            <button
+                                className='userPage-reset-Btn'
+                                onClick={e => setSelectedCategories([])}
+                            >
+                                Reset
+                            </button>
                             {categories && categories.length > 0 &&
                                 categories.map((category, index) =>
                                     <div key={category.categoryId} className='userPage-category-item'>
                                         <CheckBox
-                                            isChecked={(btnIndex === index) ? true : false}
+                                            isChecked={selectedCategories.map(c => c.categoryId).includes(category.categoryId) && !category.checked}
                                             label={`${category.categoryTitle} (${category.total})`}
-                                            onChange={(event) => handleSelectCategory(event, category.categoryId, category, index)}
-                                            id={category.categoryId}
+                                            onChange={(event) => handleSelectCategory(event, category)}
                                             value={category}
                                         />
                                     </div>
@@ -267,7 +262,6 @@ const UserPage: React.FC = () => {
                     }
                 </div>
                 <div className='userPage-right-section'>
-                    {contentLoading && <p>Selected Categoy's contents are loading, please wait a seconds.</p>}
                 </div>
                 <StickyButton
                     onClick={handleConvertFiles}

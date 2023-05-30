@@ -5,13 +5,13 @@ interface valueProps{
   categoryId: number;
   categoryTitle: string;
   total: number;
+  checked: boolean;
 }
 
 interface CheckBoxProps {
   isChecked: boolean;
   label: string | undefined;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, id: number, value:valueProps) => void;
-  id: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>,  value:valueProps) => void;
   value: valueProps;
 }
 
@@ -19,12 +19,11 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   isChecked,
   label,
   onChange,
-  id,
   value
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    onChange(event, id, value);
+    onChange(event, value);
   };
 
   return (

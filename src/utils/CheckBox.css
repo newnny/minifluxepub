@@ -26,7 +26,7 @@
   left: 7px;
   width: 6px;
   height: 10px;
-  border: solid #fff;
+  border: solid #FEB159;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   display: none;
@@ -41,5 +41,5 @@
 }
 
 .checkbox-text {
-  margin-left: 30px;
+  margin-left: 40px;
 }

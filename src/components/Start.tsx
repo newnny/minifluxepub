@@ -64,7 +64,7 @@ const Start: React.FC = () => {
                         value={userUrl}
                         onChange={e => setUserUrl(e.target.value)}
                         type="text"
-                        placeholder="The URL of your Miniflux instance"
+                        placeholder="The URL of your Miniflux instance if needed"
                         name="munifux-url"
                         className='user-input'
                     />
