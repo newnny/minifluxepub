@@ -4,11 +4,13 @@ import StickyButton from '../utils/StickyButton';
 interface MainProps {
   scrollToIntroduction: () => void;
   scrollToStart: () => void;
+  scrollToContact: () => void;
 }
 
 const Main: React.FC<MainProps> = ({
   scrollToIntroduction,
-  scrollToStart
+  scrollToStart,
+  scrollToContact
 }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,6 +21,8 @@ const Main: React.FC<MainProps> = ({
       scrollToIntroduction()
     } else if (target === "start") {
       scrollToStart()
+    } else if (target === "contact") {
+      scrollToContact()
     }
   }
 
@@ -33,14 +37,24 @@ const Main: React.FC<MainProps> = ({
       </p>
 
       <div className='main-Btn-group'>
-        <button
-          type='button'
-          className='main-Btn'
-          style={{ backgroundColor: '#CEE1F2' }}
-          onClick={scrollToIntroduction}
-        >
-          Introduction
-        </button>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <button
+            type='button'
+            className='main-Btn'
+            style={{ backgroundColor: '#CEE1F2' }}
+            onClick={scrollToIntroduction}
+          >
+            Introduction
+          </button>
+          <button
+            type='button'
+            className='main-Btn'
+            style={{ backgroundColor: '#CEE1F2' }}
+            onClick={scrollToContact}
+          >
+            Contact
+          </button>
+        </div>
         <button
           type='button'
           className='main-Btn'

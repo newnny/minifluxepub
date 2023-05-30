@@ -24,6 +24,7 @@
 .main-Btn-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 110px;
 }
 
@@ -278,4 +279,9 @@
   border: 2px solid #FEB159;
   border-radius: 30px;
   cursor: pointer;
+}
+
+.contact-send-icon {
+  width: 60px;
+  height: 60px;
 }
