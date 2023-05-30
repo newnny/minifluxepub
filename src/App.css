@@ -1,18 +1,13 @@
+.App {
+  font-family: 'Inter';
+}
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 110vh;
-  text-align: center;
-}
-
-.Landing-div-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   text-align: center;
 }
 
@@ -29,6 +24,7 @@
 .main-Btn-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 110px;
 }
 
@@ -40,4 +36,277 @@
   height: 50px;
   border: none;
   cursor: pointer;
+}
+
+.Landing-div-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.introduction-divided-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.video-size {
+  width: 750px;
+  height: 500px
+}
+
+
+@media screen and (max-width: 700px) {
+  .introduction-divided-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-size {
+    width: 430px;
+    height: 200px
+  }
+}
+
+
+.start-bold {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.user-input {
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.error-msg {
+  color: red;
+}
+
+.submit-Btn {
+  border-radius: 50px;
+  margin: 8px;
+  font-size: 25px;
+  width: 250px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  background-color: #FEB159;
+  font-size: 20px;
+  margin-top: 30px;
+}
+
+.info-Btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.question-mark {
+  width: 20px;
+  height: 20px;
+  padding-right: 5px;
+}
+
+.bold-grey {
+  color: grey;
+  font-weight: bold;
+}
+
+.explanation {
+  margin: 0px;
+  line-height: 1.5rem;
+  color: grey;
+}
+
+.lemon-icon {
+  width: 20px;
+  height: 20px;
+  padding-left: 5px;
+}
+
+
+.userPage-menu-div {
+  margin: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.userPage-menu-dateField {
+  display: none;
+}
+
+.userPage-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.userPage-setting {
+  display: none;
+}
+
+.userPage-div {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  padding: 10px;
+}
+
+.userPage-left-section {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+.userPage-middle-section {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.userPage-right-section {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .userPage-left-section {
+    display: none;
+  }
+
+  .userPage-middle-section {
+    display: flex;
+    align-content: center;
+    width: auto;
+  }
+
+  .userPage-right-section {
+    display: none;
+  }
+
+  .userPage-setting {
+    display: flex;
+    position: absolute;
+    right: 30px;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+  }
+
+  .userPage-menu-dateField {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 8%;
+    background-color: #FFF9F2;
+    padding: 8px;
+    left: 5px;
+    border: 1px black solid;
+    border-radius: 20px;
+
+  }
+}
+
+.date-input {
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 10px;
+  width: 100px;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.userPage-date-Btn-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.userPage-date-Btn {
+  padding: 5px;
+  font-size: 16px;
+  margin: 5px;
+  background-color: inherit;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 100px;
+  cursor: pointer;
+}
+
+.userPage-selected-date-Btn {
+  padding: 5px;
+  font-size: 16px;
+  margin: 5px;
+  font-weight: 500;
+  background-color: inherit;
+  border: 2px solid #FEB159;
+  background-color: #FEB159;
+  border-radius: 10px;
+  width: 100px;
+  cursor: pointer;
+}
+
+.userPage-category-group {
+  flex-direction: column;
+  display: flex;
+  margin-bottom: 30px;
+  background-color: #E2EEFA;
+}
+
+.userPage-category-item {
+  padding: 10px;
+  font-size: 16px;
+  border-bottom: 1px dotted gray;
+  display: flex;
+  cursor: pointer;
+}
+
+.userPage-category-Btn:hover {
+  margin: 3px;
+  width: 350px;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #FEB159;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  border-bottom: 1px black dotted;
+}
+
+.userPage-reset-Btn {
+  width: 100px;
+  padding: 3px;
+  margin: 10px;
+  font-size: 16px;
+  background-color: inherit;
+  border: 2px solid #FEB159;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.userPage-reset-Btn:hover {
+  width: 100px;
+  padding: 3px;
+  margin: 10px;
+  font-size: 16px;
+  background-color: #FEB159;
+  border: 2px solid #FEB159;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.contact-send-icon {
+  width: 60px;
+  height: 60px;
 }
