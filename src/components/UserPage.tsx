@@ -62,6 +62,8 @@ const UserPage: React.FC = () => {
         }
     }, [formattedCategoryState])
 
+    console.log(categories, "categories")
+
     const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
         const userToken = tokenState.userToken
