@@ -34,7 +34,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
             title: entry.title,
             author: entry.author,
             entryId: entry.id,
-            contents: entry.contents
+            content: entry.content
           })),
           checked: false,
         })
@@ -54,7 +54,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
             title: entry.title,
             author: entry.author,
             entryId: entry.id,
-            contents: entry.contents
+            content: entry.content
           })),
           checked: false,
         })

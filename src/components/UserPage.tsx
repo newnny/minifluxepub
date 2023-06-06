@@ -62,8 +62,6 @@ const UserPage: React.FC = () => {
         }
     }, [formattedCategoryState])
 
-    console.log(categories, "categories")
-
     const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
         const userToken = tokenState.userToken
@@ -112,14 +110,13 @@ const UserPage: React.FC = () => {
         setContents(options)
     }, [selectedCategories])
 
-
     const handleConvertFiles = async () => {
         const result = contents.content.length > 0 && await FetchEpubFiles(contents)
         if (result) {
             const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'ebook.epub');
+            link.setAttribute('download', `${contents.title}.epub`);
             document.body.appendChild(link);
             link.click();
         }

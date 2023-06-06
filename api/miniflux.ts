@@ -7,7 +7,7 @@ interface Entries {
   feed_id: number;
   title: string;
   author: string;
-  contents: string;
+  content: string;
   url: string;
   published_at: string;
 }
