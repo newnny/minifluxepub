@@ -24,6 +24,5 @@
     "src",
     "src/apifunction",
     "api/tempData.ts",
-    "src/types"
-  ]
+    "src/types" ]
 }
