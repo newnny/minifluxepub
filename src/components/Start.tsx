@@ -93,9 +93,9 @@ const Start: React.FC = () => {
                     {
                         showExplanation &&
                         <p className='explanation'>
-                            We need your Minifux API token in order to synchronise our software with your Minifux list.<br />
+                            We need your Miniflux API token in order to synchronise our software with your Miniflux list.<br />
                             You can find your API token following these stpes.<br />
-                            got to your Minifux <b>“Settings &gt; API Keys &gt; Create a new API key”</b><br />
+                            got to your Miniflux <b>“Settings &gt; API Keys &gt; Create a new API key”</b><br />
                             then copy it and past it here. <br />
                             easy peasy lemon squeezy!
                             <img
