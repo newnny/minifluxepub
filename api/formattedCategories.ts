@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { fetchCategories, fetchEntriesFromDate, fetchEntries } from './miniflux';
 
 // api to fetch all category names and entry amount for a given time frame
+// Import the functions you need from the SDKs you need
 
 export default async function (request: VercelRequest, response: VercelResponse) {
   const userToken = request.body.userToken
@@ -49,7 +50,12 @@ export default async function (request: VercelRequest, response: VercelResponse)
           categoryTitle: category.title,
           total: result.total,
           entryId: result.entries.map(entry => entry.id),
-          entries: result.entries,
+          entries: result.entries.map(entry => ({
+            title: entry.title,
+            author: entry.author,
+            entryId: entry.id,
+            contents: entry.contents
+          })),
           checked: false,
         })
       })
