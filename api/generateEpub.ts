@@ -1,11 +1,34 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { EPub } from 'epub-gen-memory';
+import { fetchEntriesFromDate} from './miniflux';
+
 
 export default async function (request: VercelRequest, response: VercelResponse) {
-  let options = request.body
+  //request.body = {contents, userToken, userUrl, selectedDate, ids}
+  let options = request.body.contents
+  const userToken = request.body.userToken
+  const userUrl = request.body.userUrl
+  const days = request.body.selectedDate
+  const categoryIds = request.body.ids
+
+  const contentResults = await Promise.all(
+    categoryIds.flatMap(async (id) => {
+      const result = await fetchEntriesFromDate(id, days, userToken, userUrl)
+      const entries = result.entries.map(entry => ({
+        title: entry.title,
+        author: entry.author,
+        content: entry.content
+      }))
+      return (entries)
+    })
+  )
+
+  const flattenResult = contentResults.flatMap(c => c)
+
   options = {
     ...options,
+    content: flattenResult,
     retryTimes: 1,
     fetchTimeout: 10,
     ignoreFailedDownloads: true,
@@ -20,4 +43,5 @@ export default async function (request: VercelRequest, response: VercelResponse)
     console.error('Error generating ePub:', error);
     response.status(500).send('Error generating ePub');
   }
+
 }

@@ -4,7 +4,7 @@ import HomeIcon from '../icons/home-svgrepo-com.svg'
 import SettingIcon from '../icons/modify-svgrepo-com.svg'
 import StickyButton from '../utils/StickyButton';
 import { GlobalContext } from './Context';
-import { FetchFormattedCategory, FetchEpubFiles } from '../apifunction/api';
+import { FetchFormattedCategory, FetchEpubFiles, FetchOriginalArticle } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
@@ -48,6 +48,8 @@ const UserPage: React.FC = () => {
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
+    const userToken = tokenState.userToken
+    const userUrl = urlState.userUrl
 
     const navigate = useNavigate()
 
@@ -64,8 +66,6 @@ const UserPage: React.FC = () => {
 
     const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
-        const userToken = tokenState.userToken
-        const userUrl = urlState.userUrl
         setSelectedDate(days)
         try {
             setLoading(true);
@@ -95,10 +95,13 @@ const UserPage: React.FC = () => {
         }
     }
 
+
     useEffect(() => {
         const options = {
             title: selectedCategories.length === 1 ? selectedCategories[0].categoryTitle : selectedCategories.flatMap(s => s.categoryTitle).join(', '),
             author: 'E-pub binder',
+            content: []
+            /*
             content: selectedCategories.length > 0 ? selectedCategories.flatMap(select => select.entries).map(entry => ({
                 //I have to use flatMap() to flatten the nested arrya
                 //otherwise it ends up this format: entriesType[][]
@@ -106,12 +109,15 @@ const UserPage: React.FC = () => {
                 author: entry.author ? entry.author : "",
                 content: entry.content
             })) : []
+        */
         };
         setContents(options)
     }, [selectedCategories])
 
     const handleConvertFiles = async () => {
-        const result = contents.content.length > 0 && await FetchEpubFiles(contents)
+        const ids:number[] = selectedCategories.map(c => c.categoryId)
+        const request = {contents, userToken, userUrl, selectedDate, ids}
+        const result = await FetchEpubFiles(request)
         if (result) {
             const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
             const link = document.createElement('a');

@@ -96,9 +96,9 @@ export const FetchOriginalArticle = async (entryId: number, token: string, url: 
   }
 }
 
-export const FetchEpubFiles = async (data: object) => {
+export const FetchEpubFiles = async (request: object ) => {
   try {
-    const response = await axios.post(getEpubFile, data, {
+    const response = await axios.post(getEpubFile, request, {
       responseType: 'blob'
     })
     if (response.data) {
