@@ -33,8 +33,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
           entries: result.entries.map(entry => ({
             title: entry.title,
             author: entry.author,
-            entryId: entry.id,
-            content: entry.content
+            entryId: entry.id
           })),
           checked: false,
         })
@@ -53,8 +52,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
           entries: result.entries.map(entry => ({
             title: entry.title,
             author: entry.author,
-            entryId: entry.id,
-            content: entry.content
+            entryId: entry.id
           })),
           checked: false,
         })
