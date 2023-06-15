@@ -4,7 +4,7 @@ import HomeIcon from '../icons/home-svgrepo-com.svg'
 import SettingIcon from '../icons/modify-svgrepo-com.svg'
 import StickyButton from '../utils/StickyButton';
 import { GlobalContext } from './Context';
-import { FetchFormattedCategory, FetchEpubFiles, FetchOriginalArticle } from '../apifunction/api';
+import { FetchFormattedCategory, FetchEpubFiles } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
@@ -48,7 +48,7 @@ const UserPage: React.FC = () => {
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
-    const userToken = tokenState.userToken
+    const [userToken, setUserToken] = useState<string>(tokenState.userToken)
     const userUrl = urlState.userUrl
 
     const navigate = useNavigate()
@@ -58,11 +58,16 @@ const UserPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (formattedCategoryState && formattedCategoryState.formattedCategories && formattedCategoryState.formattedCategories.length > 0) {
-            const data = formattedCategoryState.formattedCategories
-            setCategories(data)
+        const token = JSON.parse(localStorage.getItem('userToken') || "");
+        if (token) {
+            setUserToken(token.replace(/^"|"$/g, ''));
         }
-    }, [formattedCategoryState])
+    }, []);
+
+    useEffect(() => {
+        const formattedCategories = JSON.parse(localStorage.getItem('formattedCategories') || "")
+        setCategories(formattedCategories)
+    }, [formattedCategoryState.formattedCategories]);
 
     const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
@@ -72,6 +77,7 @@ const UserPage: React.FC = () => {
             const result = await FetchFormattedCategory(days, userToken, userUrl)
             if (result) {
                 await dispatch({ type: 'GET_FORMATTED_CATEGORY', payload: result })
+                await localStorage.setItem('formattedCategories', JSON.stringify(result))
             }
         } catch (error) {
             console.error('Something went wrong while dispatch the data');
@@ -115,8 +121,8 @@ const UserPage: React.FC = () => {
     }, [selectedCategories])
 
     const handleConvertFiles = async () => {
-        const ids:number[] = selectedCategories.map(c => c.categoryId)
-        const request = {contents, userToken, userUrl, selectedDate, ids}
+        const ids: number[] = selectedCategories.map(c => c.categoryId)
+        const request = { contents, userToken, userUrl, selectedDate, ids }
         const result = await FetchEpubFiles(request)
         if (result) {
             const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));

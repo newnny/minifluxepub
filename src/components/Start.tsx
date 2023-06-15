@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import QuestionMark from '../icons/question-mark.svg'
 import LemonIcon from '../icons/lemon-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Loading from '../utils/Loading';
 
 const Start: React.FC = () => {
     const [showExplanation, setShowExplanation] = useState<boolean>(false)
+    const [enteredUserToken, setEnteredUserToken] = useState<string>("")
     const [userToken, setUserToken] = useState<string>("")
     const [userUrl, setUserUrl] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("")
@@ -17,16 +18,30 @@ const Start: React.FC = () => {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        const token = localStorage.getItem('userToken') || ""
+        setEnteredUserToken(token.replace(/^"|"$/g, ''))
+    }, [])
+
+    useEffect(() => {
+        if (enteredUserToken) {
+            setUserToken(enteredUserToken)
+        }
+    }, [enteredUserToken])
+
     const handleSubmit = async (e: React.SyntheticEvent, token?: string, url?: string | undefined) => {
         e.preventDefault();
         const userToken = token
         const userUrl = url
         if (userToken) {
             try {
-                setLoading(true); 
+                setLoading(true);
                 await dispatch({ type: 'SET_TOKEN', payload: userToken })
+                await localStorage.setItem('userToken', JSON.stringify(userToken));
                 await dispatch({ type: 'SET_USER_URL', payload: userUrl })
+                await localStorage.setItem('userURL', JSON.stringify(userUrl));
                 const result = await FetchFormattedCategory(7, userToken, userUrl)
+                await localStorage.setItem('formattedCategories', JSON.stringify(result))
                 if (result) {
                     await dispatch({ type: 'GET_FORMATTED_CATEGORY', payload: result })
                     navigate(`/user`)
