@@ -107,15 +107,6 @@ const UserPage: React.FC = () => {
             title: selectedCategories.length === 1 ? selectedCategories[0].categoryTitle : selectedCategories.flatMap(s => s.categoryTitle).join(', '),
             author: 'E-pub binder',
             content: []
-            /*
-            content: selectedCategories.length > 0 ? selectedCategories.flatMap(select => select.entries).map(entry => ({
-                //I have to use flatMap() to flatten the nested arrya
-                //otherwise it ends up this format: entriesType[][]
-                title: entry.title,
-                author: entry.author ? entry.author : "",
-                content: entry.content
-            })) : []
-        */
         };
         setContents(options)
     }, [selectedCategories])

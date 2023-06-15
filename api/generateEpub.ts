@@ -16,7 +16,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
     categoryIds.flatMap(async (id) => {
       const result = await fetchEntriesFromDate(id, days, userToken, userUrl)
       const entries = result.entries.map(entry => ({
-        title: entry.title,
+        title: `[${entry.feed.category.title}] ${entry.title}`,
         author: entry.author,
         content: entry.content
       }))

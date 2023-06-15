@@ -2,6 +2,14 @@ interface Category {
   id: number;
   title: String;
 }
+
+interface entryFeedCategory{
+  id: number;
+	title: string;
+}
+interface entryFeed{
+  category: entryFeedCategory
+}
 interface Entries {
   id: number;
   feed_id: number;
@@ -10,6 +18,7 @@ interface Entries {
   content: string;
   url: string;
   published_at: string;
+  feed: entryFeed;
 }
 interface EntriesResponse {
   total: number;
