@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { EPub } from 'epub-gen-memory';
-import { fetchEntriesFromDate} from './miniflux';
+import { fetchEntriesFromDate, updateReadStatus } from './miniflux';
 
 
 export default async function (request: VercelRequest, response: VercelResponse) {
