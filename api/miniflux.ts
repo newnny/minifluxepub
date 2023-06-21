@@ -45,7 +45,7 @@ export async function fetchCategories(userToken: String, userUrl: String | undef
 
 //fetch all entries(no periods)
 export async function fetchEntries(categoryId: number, userToken: String, userUrl: String | undefined): Promise<EntriesResponse> {
-  return (await callAPI(`categories/${categoryId}/entries?order=id&direction=asc`, userToken, userUrl))
+  return (await callAPI(`categories/${categoryId}/entries?limit=10000&order=published_at&direction=asc`, userToken, userUrl))
 }
 
 export async function fetchFeeds(categoryId: number, userToken: String, userUrl: String | undefined): Promise<EntriesResponse> {
@@ -55,7 +55,7 @@ export async function fetchFeeds(categoryId: number, userToken: String, userUrl:
 export async function fetchEntriesFromDate(categoryId: number, days: number, userToken: String, userUrl: String | undefined): Promise<EntriesResponse> {
   const getDate: Date = new Date(new Date().setDate(new Date().getDate() - days))
   const unixTimestamp = Math.floor(getDate.getTime() / 1000);
-  return (await callAPI(`categories/${categoryId}/entries?order=id&direction=asc&after=${unixTimestamp}`, userToken, userUrl))
+  return (await callAPI(`categories/${categoryId}/entries?limit=10000&order=published_at&direction=asc&after=${unixTimestamp}`, userToken, userUrl))
 }
 
 export async function fetchOriginalArticle(entryId: number, userToken: String, userUrl: String | undefined): Promise<contentRes> {
