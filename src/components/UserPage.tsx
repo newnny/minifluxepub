@@ -3,11 +3,13 @@ import '../App.css';
 import HomeIcon from '../icons/home-svgrepo-com.svg'
 import SettingIcon from '../icons/modify-svgrepo-com.svg'
 import StickyButton from '../utils/StickyButton';
+import Warning from '../icons/warning.svg'
 import { GlobalContext } from './Context';
 import { FetchFormattedCategory, FetchEpubFiles } from '../apifunction/api';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
+import Modal from '../utils/Modal';
 interface entriesType {
     entryId: number;
     title: string;
@@ -45,6 +47,8 @@ const UserPage: React.FC = () => {
         author: '',
         content: []
     })
+    const [noContentData, setNoContentData] = useState<entriesType[]>([])
+    const [showModal, setShowModal] = useState<boolean>(false)
 
     const { state, dispatch } = useContext(GlobalContext)
     const { formattedCategoryState, tokenState, urlState } = state
@@ -109,11 +113,18 @@ const UserPage: React.FC = () => {
             content: []
         };
         setContents(options)
+
+        const filteredOutContent = selectedCategories && selectedCategories.length > 0 ? selectedCategories.flatMap(c => c.entries).filter(e => e.content === "false") : []
+        filteredOutContent && setNoContentData(filteredOutContent)
     }, [selectedCategories])
 
-    const handleConvertFiles = async () => {
+    const handleOpenModal = () => {
+        setShowModal(!showModal)
+    }
+
+    const handleConvertFiles = async (filter: string | undefined) => {
         const ids: number[] = selectedCategories.map(c => c.categoryId)
-        const request = { contents, userToken, userUrl, selectedDate, ids }
+        const request = { contents, userToken, userUrl, selectedDate, ids, filter }
         const result = await FetchEpubFiles(request)
         if (result) {
             const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
@@ -266,9 +277,46 @@ const UserPage: React.FC = () => {
                 <div className='userPage-right-section'>
                 </div>
                 <StickyButton
-                    onClick={handleConvertFiles}
+                    onClick={handleOpenModal}
                     buttonText={"Make E-pub files"}
                 />
+                {showModal && <Modal
+                    onClick={() => setShowModal(!showModal)}
+                    children={
+                        <div className='userPage-modal-div'>
+                            <div className='userPage-modal-inner-div'>
+                                    <img src={Warning} className='userPage-icon' />
+
+                                <p>
+                                    You selected <b>{selectedCategories.flatMap(c => c.entries).length}</b> articles from {selectedCategories.length === 1 ? `category of ${selectedCategories[0].categoryTitle}` : ` categories of ${selectedCategories.flatMap(s => s.categoryTitle).join(', ')}`}.
+                                </p>
+                                <p>
+                                    Articles with <em style={{textDecoration: "orange wavy underline"}}>less than 150 words of content will be aborted</em> for downloading from the selected category/categories.
+                                </p>
+                                <p>Total <b>{`${selectedCategories.flatMap(c => c.entries).length - noContentData.length}`}</b> article(s) will be downloaded.</p>
+                                <button
+                                    className='userPage-modal-btn'
+                                    onClick={() => handleConvertFiles("filtered")}
+                                >
+                                    Generate a file
+                                </button>
+                            </div>
+
+                            <div className='userPage-modal-inner-div'>
+                                <p>
+                                    If you wish to download all articles regardless of the content's length, please click here.
+                                </p>
+                                <button
+                                    className='userPage-modal-btn'
+                                    onClick={() => handleConvertFiles(undefined)}
+                                >
+                                    Generate a file for all article
+                                </button>
+
+                            </div>
+                        </div>
+                    }
+                />}
             </div>
         </>
 

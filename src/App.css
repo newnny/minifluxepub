@@ -306,6 +306,23 @@
   cursor: pointer;
 }
 
+.userPage-modal-div {
+  padding: 15px;
+}
+
+.userPage-modal-inner-div {
+  padding: 20px;
+}
+
+.userPage-modal-btn {
+  background-color: orange;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+}
+
 .contact-send-icon {
   width: 60px;
   height: 60px;

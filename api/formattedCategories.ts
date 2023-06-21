@@ -33,7 +33,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
           entries: result.entries.map(entry => ({
             title: entry.title,
             author: entry.author,
-            entryId: entry.id
+            entryId: entry.id,
+            content: entry.content.split(" ").length > 150 ? "true" : "false"
           })),
           checked: false,
         })
@@ -52,7 +53,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
           entries: result.entries.map(entry => ({
             title: entry.title,
             author: entry.author,
-            entryId: entry.id
+            entryId: entry.id,
+            content: entry.content.split(" ").length > 150 ? "true" : "false"
           })),
           checked: false,
         })
