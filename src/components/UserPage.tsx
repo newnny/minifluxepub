@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CheckBox from '../utils/CheckBox';
 import Modal from '../utils/Modal';
+import SpinnerLoading from '../utils/SpinnerLoading';
 interface entriesType {
     entryId: number;
     title: string;
@@ -40,6 +41,7 @@ const UserPage: React.FC = () => {
     const [categories, setCategories] = useState<categoryType[]>([])
     const [showDateFilter, setShowDateFilter] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false);
+    const [fileLoading, setFileLoading] = useState<boolean>(false)
     const [selectedDate, setSelectedDate] = useState<number | undefined>(7)
     const [selectedCategories, setSelectedCategories] = useState<categoryType[]>([])
     const [contents, setContents] = useState<contentRes>({
@@ -69,9 +71,11 @@ const UserPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const formattedCategories = JSON.parse(localStorage.getItem('formattedCategories') || "")
-        setCategories(formattedCategories)
-    }, [formattedCategoryState.formattedCategories]);
+        if (userToken) {
+            const formattedCategories = JSON.parse(localStorage.getItem('formattedCategories') || "")
+            setCategories(formattedCategories)
+        }
+    }, [formattedCategoryState.formattedCategories, userToken]);
 
     const handleChangeDate = async (e: React.SyntheticEvent, days?: number | undefined) => {
         e.preventDefault();
@@ -125,64 +129,71 @@ const UserPage: React.FC = () => {
     const handleConvertFiles = async (filter: string | undefined) => {
         const ids: number[] = selectedCategories.map(c => c.categoryId)
         const request = { contents, userToken, userUrl, selectedDate, ids, filter }
-        const result = await FetchEpubFiles(request)
-        if (result) {
-            const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${contents.title}.epub`);
-            document.body.appendChild(link);
-            link.click();
+        try {
+            setFileLoading(true)
+            const result = await FetchEpubFiles(request)
+            if (result) {
+                const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${contents.title}.epub`);
+                document.body.appendChild(link);
+                link.click();
+            }
+        } finally {
+            setFileLoading(false)
         }
     }
 
     const dateField = () => {
         return (
-            <div className='userPage-menu-dateField'>
-                <p style={{ fontSize: 16 }}>
-                    <b style={{ fontSize: 20 }}>Date filter</b>
-                    <br />
-                    Kindly choose one of the provided date periods.
-                    <br />
-                    This action will automatically update the data from today's date to the period you select.
-                </p>
-                <div className='userPage-date-Btn-group'>
-                    <button
-                        className={selectedDate === 7 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, 7)}
-                    >
-                        Last 1W
-                    </button>
-                    <button
-                        className={selectedDate === 14 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, 14)}
-                    >
-                        Last 2W
-                    </button>
-                    <button
-                        className={selectedDate === 31 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, 31)}
-                    >
-                        Last 1M
-                    </button>
-                    <button
-                        className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, 180)}
-                    >
-                        Last 6M
-                    </button>
-                    <button
-                        className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, 180)}
-                    >
-                        Last 6M
-                    </button>
-                    <button
-                        className={selectedDate === undefined ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
-                        onClick={(e) => handleChangeDate(e, undefined)}
-                    >
-                        All time periods
-                    </button>
+            <div className='userPage-modal-div'>
+                <div className='userPage-modal-inner-div'>
+                    <p style={{ fontSize: 16 }}>
+                        <b style={{ fontSize: 20 }}>Date filter</b>
+                        <br />
+                        Kindly choose one of the provided date periods.
+                        <br />
+                        This action will automatically update the data from today's date to the period you select.
+                    </p>
+                    <div className='userPage-date-Btn-group'>
+                        <button
+                            className={selectedDate === 7 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 7)}
+                        >
+                            Last 1W
+                        </button>
+                        <button
+                            className={selectedDate === 14 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 14)}
+                        >
+                            Last 2W
+                        </button>
+                        <button
+                            className={selectedDate === 31 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 31)}
+                        >
+                            Last 1M
+                        </button>
+                        <button
+                            className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 180)}
+                        >
+                            Last 6M
+                        </button>
+                        <button
+                            className={selectedDate === 180 ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, 180)}
+                        >
+                            Last 6M
+                        </button>
+                        <button
+                            className={selectedDate === undefined ? 'userPage-selected-date-Btn' : 'userPage-date-Btn'}
+                            onClick={(e) => handleChangeDate(e, undefined)}
+                        >
+                            All time periods
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -204,7 +215,12 @@ const UserPage: React.FC = () => {
                         className='userPage-icon'
                     />
                 </button>
-                {showDateFilter && dateField()}
+                {showDateFilter &&
+                    <Modal
+                        onClick={() => setShowDateFilter(!showDateFilter)}
+                        children={dateField()}
+                    />
+                }
 
             </div>
             <div className='userPage-div'>
@@ -249,18 +265,19 @@ const UserPage: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <div className='userPage-middle-section'>
+                <div className='userPage-middle-section'
+                    style={{ display: showDateFilter ? "none" : undefined }}>
                     {loading ?
                         <Loading /> :
                         <div className='userPage-category-group'>
                             <button
                                 className='userPage-reset-Btn'
-                                onClick={e => setSelectedCategories([])}
+                                onClick={() => setSelectedCategories([])}
                             >
                                 Reset
                             </button>
                             {categories && categories.length > 0 &&
-                                categories.map((category, index) =>
+                                categories.map((category) =>
                                     <div key={category.categoryId} className='userPage-category-item'>
                                         <CheckBox
                                             isChecked={selectedCategories.map(c => c.categoryId).includes(category.categoryId) && !category.checked}
@@ -283,37 +300,45 @@ const UserPage: React.FC = () => {
                 {showModal && <Modal
                     onClick={() => setShowModal(!showModal)}
                     children={
-                        <div className='userPage-modal-div'>
-                            <div className='userPage-modal-inner-div'>
-                                    <img src={Warning} className='userPage-icon' />
+                        <div>
+                            {fileLoading ?
+                                <div className='userPage-modal-loading-div'>
+                                    <div className='userPage-modal-inner-div'>
+                                        <SpinnerLoading />
+                                    </div>
+                                </div>
+                                :
+                                <div className='userPage-modal-div'>
+                                    <div className='userPage-modal-inner-div'>
+                                        <img src={Warning} className='userPage-icon' />
+                                        <p>
+                                            You selected <b>{selectedCategories.flatMap(c => c.entries).length}</b> {selectedCategories.flatMap(c => c.entries).length > 1 ? `articles` : `article`}{selectedCategories.length === 1 ? ` from category of ${selectedCategories[0].categoryTitle}` : selectedCategories.length === 0 ? "" : ` from categories of ${selectedCategories.flatMap(s => s.categoryTitle).join(', ')}`}.
+                                        </p>
+                                        <p>
+                                            Articles with <em style={{ textDecoration: "orange wavy underline" }}>less than 150 words of content will be skipped</em> for downloading from the selected category/categories.
+                                        </p>
+                                        <p>Total <b>{`${selectedCategories.flatMap(c => c.entries).length - noContentData.length}`}</b> article(s) will be downloaded.</p>
+                                        <button
+                                            className='userPage-modal-btn'
+                                            onClick={() => handleConvertFiles("filtered")}
+                                        >
+                                            Generate a file
+                                        </button>
+                                    </div>
 
-                                <p>
-                                    You selected <b>{selectedCategories.flatMap(c => c.entries).length}</b> articles from {selectedCategories.length === 1 ? `category of ${selectedCategories[0].categoryTitle}` : ` categories of ${selectedCategories.flatMap(s => s.categoryTitle).join(', ')}`}.
-                                </p>
-                                <p>
-                                    Articles with <em style={{textDecoration: "orange wavy underline"}}>less than 150 words of content will be aborted</em> for downloading from the selected category/categories.
-                                </p>
-                                <p>Total <b>{`${selectedCategories.flatMap(c => c.entries).length - noContentData.length}`}</b> article(s) will be downloaded.</p>
-                                <button
-                                    className='userPage-modal-btn'
-                                    onClick={() => handleConvertFiles("filtered")}
-                                >
-                                    Generate a file
-                                </button>
-                            </div>
-
-                            <div className='userPage-modal-inner-div'>
-                                <p>
-                                    If you wish to download all articles regardless of the content's length, please click here.
-                                </p>
-                                <button
-                                    className='userPage-modal-btn'
-                                    onClick={() => handleConvertFiles(undefined)}
-                                >
-                                    Generate a file for all article
-                                </button>
-
-                            </div>
+                                    <div className='userPage-modal-inner-div'>
+                                        <p>
+                                            If you wish to download all articles regardless of the content's length, please click here.
+                                        </p>
+                                        <button
+                                            className='userPage-modal-btn'
+                                            onClick={() => handleConvertFiles(undefined)}
+                                        >
+                                            Generate a file for all article
+                                        </button>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     }
                 />}

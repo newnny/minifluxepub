@@ -41,10 +41,10 @@ const Start: React.FC = () => {
                 await dispatch({ type: 'SET_USER_URL', payload: userUrl })
                 await localStorage.setItem('userURL', JSON.stringify(userUrl));
                 const result = await FetchFormattedCategory(7, userToken, userUrl)
-                await localStorage.setItem('formattedCategories', JSON.stringify(result))
                 if (result) {
+                    await localStorage.setItem('formattedCategories', JSON.stringify(result))
                     await dispatch({ type: 'GET_FORMATTED_CATEGORY', payload: result })
-                    navigate(`/user`)
+                    await navigate(`/user`)
                 }
             } catch (error) {
                 console.error('Something went wrong while dispatch the data');

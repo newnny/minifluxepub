@@ -57,20 +57,6 @@
   height: 500px
 }
 
-
-@media screen and (max-width: 700px) {
-  .introduction-divided-page {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .video-size {
-    width: 430px;
-    height: 200px
-  }
-}
-
-
 .start-bold {
   font-size: 30px;
   font-weight: bold;
@@ -181,44 +167,6 @@
   padding: 10px;
 }
 
-@media screen and (max-width: 700px) {
-  .userPage-left-section {
-    display: none;
-  }
-
-  .userPage-middle-section {
-    display: flex;
-    align-content: center;
-    width: auto;
-  }
-
-  .userPage-right-section {
-    display: none;
-  }
-
-  .userPage-setting {
-    display: flex;
-    position: absolute;
-    right: 30px;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-  }
-
-  .userPage-menu-dateField {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 8%;
-    background-color: #FFF9F2;
-    padding: 8px;
-    left: 5px;
-    border: 1px black solid;
-    border-radius: 20px;
-
-  }
-}
-
 .date-input {
   border-radius: 5px;
   border: 1px solid gray;
@@ -310,6 +258,14 @@
   padding: 15px;
 }
 
+.userPage-modal-loading-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 45vh;
+}
+
 .userPage-modal-inner-div {
   padding: 20px;
 }
@@ -326,4 +282,77 @@
 .contact-send-icon {
   width: 60px;
   height: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .main-bold {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .main-text {
+    font-size: 25px;
+  }
+
+  .main-Btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.main-Btn {
+  border-radius: 50px;
+  margin: 8px;
+  font-size: 18px;
+  width: 170px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+  .introduction-divided-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-size {
+    width: 430px;
+    height: 200px
+  }
+
+  .userPage-left-section {
+    display: none;
+  }
+
+  .userPage-middle-section {
+    display: flex;
+    align-content: center;
+    width: auto;
+  }
+
+  .userPage-right-section {
+    display: none;
+  }
+
+  .userPage-setting {
+    display: flex;
+    position: absolute;
+    right: 30px;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+  }
+
+  .userPage-menu-dateField {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 8%;
+    background-color: #FFF9F2;
+    padding: 8px;
+    left: 5px;
+    border: 1px black solid;
+    border-radius: 20px;
+  }
 }
