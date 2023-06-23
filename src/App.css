@@ -284,6 +284,10 @@
   height: 60px;
 }
 
+.contact-div {
+  display: flex;
+}
+
 @media screen and (max-width: 768px) {
   .main-bold {
     font-size: 50px;
@@ -301,15 +305,15 @@
     align-items: center;
   }
 
-.main-Btn {
-  border-radius: 50px;
-  margin: 8px;
-  font-size: 18px;
-  width: 170px;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-}
+  .main-Btn {
+    border-radius: 50px;
+    margin: 8px;
+    font-size: 18px;
+    width: 170px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+  }
 
   .introduction-divided-page {
     display: flex;
@@ -354,5 +358,9 @@
     left: 5px;
     border: 1px black solid;
     border-radius: 20px;
+  }
+
+  .contact-div {
+    display: block;
   }
 }
