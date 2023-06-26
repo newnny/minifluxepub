@@ -5,10 +5,8 @@ import SinglePageMain from './components/SinglePageMain';
 import Introduction from './components/Introduction';
 import Start from './components/Start';
 import UserPage from './components/UserPage';
-import Contact from './components/Contact';
 
 const App: React.FC = () => {
-  const contactRef = useRef<HTMLDivElement>(null);
   const introductionRef = useRef<HTMLDivElement>(null);
   const startRef = useRef<HTMLDivElement>(null);
 
@@ -31,13 +29,6 @@ const App: React.FC = () => {
           }
         />
         <Route path="/user" element={<UserPage />} />
-        <Route path="/contact"
-          element={
-            <div id="contact" ref={contactRef}>
-              <Contact />
-            </div>
-          }
-        />
       </Routes>
     </div>
   )

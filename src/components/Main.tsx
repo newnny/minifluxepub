@@ -4,13 +4,11 @@ import StickyButton from '../utils/StickyButton';
 interface MainProps {
   scrollToIntroduction: () => void;
   scrollToStart: () => void;
-  scrollToContact: () => void;
 }
 
 const Main: React.FC<MainProps> = ({
   scrollToIntroduction,
-  scrollToStart,
-  scrollToContact
+  scrollToStart
 }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -21,8 +19,6 @@ const Main: React.FC<MainProps> = ({
       scrollToIntroduction()
     } else if (target === "start") {
       scrollToStart()
-    } else if (target === "contact") {
-      scrollToContact()
     }
   }
 
@@ -46,14 +42,15 @@ const Main: React.FC<MainProps> = ({
           >
             Introduction
           </button>
-          <button
-            type='button'
-            className='main-Btn'
-            style={{ backgroundColor: '#CEE1F2' }}
-            onClick={scrollToContact}
-          >
-            Contact
-          </button>
+          <a className="a-no-deco" href="https://www.surveymonkey.de/r/LSLCJPQ" target="_blank" rel="noreferrer">
+            <button
+              type='button'
+              className='main-Btn'
+              style={{ backgroundColor: '#CEE1F2' }}
+            >
+              Feedback
+            </button>
+          </a>
         </div>
         <button
           type='button'
