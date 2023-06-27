@@ -20,14 +20,15 @@ export default async function (request: VercelRequest, response: VercelResponse)
         const entries = result.entries.map(entry => ({
           title: `[${entry.feed.category.title}] ${entry.title}`,
           author: entry.author,
-          content: entry.content && entry.content.split(" ").length > 150 ? entry.content : false
+          content: entry.content && entry.content.split(" ").length > 150 ? 
+          `<a href="${entry.url}" target="_blank" rel="noreferrer">See original article</a><br /><br />  ${entry.content}` : false
         }))
         return (entries)
       } else {
         const entries = result.entries.map(entry => ({
           title: `[${entry.feed.category.title}] ${entry.title}`,
           author: entry.author,
-          content: entry.content
+          content: `Original url: ${entry.url}<br /> + ${entry.content}`
         }))
         return (entries)
       }

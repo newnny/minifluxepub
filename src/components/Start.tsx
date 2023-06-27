@@ -100,6 +100,7 @@ const Start: React.FC = () => {
                         <img
                             src={QuestionMark}
                             className='question-mark'
+                            alt='QuestionMark'
                         />
                         <p className='bold-grey'>
                             what is the API token and where can I get it?
@@ -116,6 +117,7 @@ const Start: React.FC = () => {
                             <img
                                 src={LemonIcon}
                                 className='lemon-icon'
+                                alt='LemonIcon'
                             />
                         </p>
                     }

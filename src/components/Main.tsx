@@ -34,7 +34,7 @@ const Main: React.FC<MainProps> = ({
 
       <div className='main-features-div-wrap'>
         <div className='main-features-div' style={{padding: 10}}>
-          <img src={ePubIcon} className='main-feautres-icons' />
+          <img src={ePubIcon} className='main-feautres-icons' alt='ePubIcon'/>
           <p className='main-text'>
             <b>E-pub file binding</b><br />
             <p className='fontSize-18'>
@@ -43,7 +43,7 @@ const Main: React.FC<MainProps> = ({
           </p>
         </div>
         <div className='main-features-div'>
-          <img src={rssIcon} className='main-feautres-icons' />
+          <img src={rssIcon} className='main-feautres-icons' alt='rssIcon'/>
           <p className='main-text'>
             <b>Simplified process of consuming RSS feeds</b><br />
             <p className='fontSize-18'>
@@ -52,7 +52,7 @@ const Main: React.FC<MainProps> = ({
           </p>
         </div>
         <div className='main-features-div' style={{padding: 10}}>
-          <img src={breakicon} className='main-feautres-icons' />
+          <img src={breakicon} className='main-feautres-icons' alt='breakicon'/>
           <p className='main-text'>
             <b>Better enjoyment of your favorite aricles</b><br />
             <p className='fontSize-18'>

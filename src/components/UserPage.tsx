@@ -37,6 +37,15 @@ interface contentRes {
     content: epubContent[]
 }
 
+const getTodayDate = () => {
+    let tempDate = new Date();
+    var dd = (tempDate.getDate() < 10 ? '0' : '') + tempDate.getDate()
+    var MM = ((tempDate.getMonth() + 1) < 10 ? '0' : '') + (tempDate.getMonth() + 1)
+    var yyyy = tempDate.getFullYear()
+    let date = dd + "/" + MM + "/" + yyyy
+    return date;
+}
+
 const UserPage: React.FC = () => {
     const [categories, setCategories] = useState<categoryType[]>([])
     const [showDateFilter, setShowDateFilter] = useState<boolean>(false)
@@ -136,7 +145,7 @@ const UserPage: React.FC = () => {
                 const url = window.URL.createObjectURL(new Blob([result], { type: "application/epub+zip" }));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', `${contents.title}.epub`);
+                link.setAttribute('download', `[${getTodayDate()}] ${contents.title}.epub`);
                 document.body.appendChild(link);
                 link.click();
             }
@@ -207,12 +216,14 @@ const UserPage: React.FC = () => {
                     <img
                         src={HomeIcon}
                         className='userPage-icon'
+                        alt='HomeIcon'
                     />
                 </button>
                 <button className='userPage-setting' onClick={() => setShowDateFilter(!showDateFilter)}>
                     <img
                         src={SettingIcon}
                         className='userPage-icon'
+                        alt='SettingIcon'
                     />
                 </button>
                 {showDateFilter &&
@@ -303,14 +314,18 @@ const UserPage: React.FC = () => {
                         <div>
                             {fileLoading ?
                                 <div className='userPage-modal-loading-div'>
-                                    <div className='userPage-modal-inner-div'>
+                                    <div className='userPage-modal-inner-spinner-div'>
                                         <SpinnerLoading />
+                                        <p style={{textAlign: "center",}}>
+                                            Your file is generating. <br />
+                                            It might take a few seconds.
+                                        </p>
                                     </div>
                                 </div>
                                 :
                                 <div className='userPage-modal-div'>
                                     <div className='userPage-modal-inner-div'>
-                                        <img src={Warning} className='userPage-icon' />
+                                        <img src={Warning} className='userPage-icon' alt='Warning' />
                                         <p>
                                             You selected <b>{selectedCategories.flatMap(c => c.entries).length}</b> {selectedCategories.flatMap(c => c.entries).length > 1 ? `articles` : `article`}{selectedCategories.length === 1 ? ` from category of ${selectedCategories[0].categoryTitle}` : selectedCategories.length === 0 ? "" : ` from categories of ${selectedCategories.flatMap(s => s.categoryTitle).join(', ')}`}.
                                         </p>
