@@ -2,6 +2,15 @@
   font-family: 'Inter';
 }
 
+.display-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.fontSize-18 {
+  font-size: 18px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -18,24 +27,37 @@
 }
 
 .main-text {
-  font-size: 35px;
+  font-size: 20px;
 }
 
 .main-Btn-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 110px;
 }
 
 .main-Btn {
   border-radius: 50px;
   margin: 8px;
   font-size: 25px;
+  font-weight: 500;
   width: 250px;
   height: 50px;
   border: none;
   cursor: pointer;
+}
+
+.main-features-div-wrap {
+  display: flex;
+  padding: 50px;
+}
+
+.main-features-div {
+  width: 33.3%;
+}
+
+.main-feautres-icons {
+  width: 90px;
 }
 
 .Landing-div-wrapper {
@@ -289,14 +311,34 @@
 }
 
 @media screen and (max-width: 768px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    padding: 10px;
+  }
+
+  .main-features-div-wrap {
+    display: block;
+    padding: 10px;
+  }
+
+  .main-features-div {
+    width: auto
+  }
+
   .main-bold {
-    font-size: 50px;
+    font-size: 30px;
     font-weight: bold;
-    margin: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
   .main-text {
-    font-size: 25px;
+    font-size: 20px;
   }
 
   .main-Btn-group {
@@ -313,6 +355,15 @@
     height: 50px;
     border: none;
     cursor: pointer;
+  }
+
+  .Landing-div-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
   }
 
   .introduction-divided-page {

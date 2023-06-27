@@ -16,7 +16,7 @@
 @media screen and (max-width: 768px) {
     .StickyButton {
         position: fixed;
-        bottom: 90px;
+        bottom: 20px;
         right: 40px;
         padding: 10px;
         width: 90px;

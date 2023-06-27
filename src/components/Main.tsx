@@ -1,6 +1,10 @@
 import React from 'react';
 import '../App.css';
 import StickyButton from '../utils/StickyButton';
+import ePubIcon from '../icons/pub-file-format-symbol.svg'
+import rssIcon from '../icons/rss-svgrepo.svg'
+import breakicon from '../icons/break-svgrepo.svg'
+
 interface MainProps {
   scrollToIntroduction: () => void;
   scrollToStart: () => void;
@@ -27,13 +31,39 @@ const Main: React.FC<MainProps> = ({
       <p className='main-bold'>
         Make e-pub files from your Miniflux list
       </p>
-      <p className='main-text '>
-        and bring it with you<br />
-        whenever, where ever you go
-      </p>
+
+      <div className='main-features-div-wrap'>
+        <div className='main-features-div' style={{padding: 10}}>
+          <img src={ePubIcon} className='main-feautres-icons' />
+          <p className='main-text'>
+            <b>E-pub file binding</b><br />
+            <p className='fontSize-18'>
+              Miniflux binder allows you to combine feeds using the Miniflux API. This feature enables you to manage and organize your e-books conveniently.
+            </p>
+          </p>
+        </div>
+        <div className='main-features-div'>
+          <img src={rssIcon} className='main-feautres-icons' />
+          <p className='main-text'>
+            <b>Simplified process of consuming RSS feeds</b><br />
+            <p className='fontSize-18'>
+              The miniflux binder offers a simplified process for consuming feeds on e-book readers and provides unparalleled convenience, making it easier for users to access and read their favorite RSS feeds.
+            </p>
+          </p>
+        </div>
+        <div className='main-features-div' style={{padding: 10}}>
+          <img src={breakicon} className='main-feautres-icons' />
+          <p className='main-text'>
+            <b>Better enjoyment of your favorite aricles</b><br />
+            <p className='fontSize-18'>
+              The miniflux binder promises a better way to enjoy RSS feeds. By leveraging its features and functionalities, you can enhance your experience of reading and accessing your preferred RSS feeds, suggesting an improved and user-friendly interface for consuming content.
+            </p>
+          </p>
+        </div>
+      </div>
 
       <div className='main-Btn-group'>
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div className='display-row'>
           <button
             type='button'
             className='main-Btn'
