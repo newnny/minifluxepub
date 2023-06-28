@@ -33,32 +33,44 @@ const Main: React.FC<MainProps> = ({
       </p>
 
       <div className='main-features-div-wrap'>
-        <div className='main-features-div' style={{padding: 10}}>
-          <img src={ePubIcon} className='main-feautres-icons' alt='ePubIcon'/>
-          <p className='main-text'>
-            <b>E-pub file binding</b><br />
+        <div className='main-features-div' style={{ padding: 10 }}>
+          <div>
+            <img src={ePubIcon} className='main-feautres-icons' alt='ePubIcon' />
+          </div>
+          <div>
+            <p className='main-text'>
+              <b>E-pub file binding</b>
+            </p>
             <p className='fontSize-18'>
               Miniflux binder allows you to combine feeds using the Miniflux API. This feature enables you to manage and organize your e-books conveniently.
             </p>
-          </p>
+          </div>
         </div>
-        <div className='main-features-div'>
-          <img src={rssIcon} className='main-feautres-icons' alt='rssIcon'/>
-          <p className='main-text'>
-            <b>Simplified process of consuming RSS feeds</b><br />
+        <div className='main-features-div' style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <div>
+            <img src={rssIcon} className='main-feautres-icons' alt='rssIcon' />
+          </div>
+          <div>
+            <p className='main-text'>
+              <b>Simplified process of consuming RSS feeds</b>
+            </p>
             <p className='fontSize-18'>
               The miniflux binder offers a simplified process for consuming feeds on e-book readers and provides unparalleled convenience, making it easier for users to access and read their favorite RSS feeds.
             </p>
-          </p>
+          </div>
         </div>
-        <div className='main-features-div' style={{padding: 10}}>
-          <img src={breakicon} className='main-feautres-icons' alt='breakicon'/>
-          <p className='main-text'>
-            <b>Better enjoyment of your favorite aricles</b><br />
-            <p className='fontSize-18'>
-              The miniflux binder promises a better way to enjoy RSS feeds. By leveraging its features and functionalities, you can enhance your experience of reading and accessing your preferred RSS feeds, suggesting an improved and user-friendly interface for consuming content.
+        <div className='main-features-div' style={{ padding: 10 }}>
+          <div>
+            <img src={breakicon} className='main-feautres-icons' alt='breakicon' />
+          </div>
+          <div>
+            <p className='main-text'>
+              <b>Enhance your offline reading experience</b>
             </p>
-          </p>
+            <p className='fontSize-18'>
+              The miniflux binder promises a better way to enjoy RSS feeds whenever, where ever you go.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -70,7 +82,7 @@ const Main: React.FC<MainProps> = ({
             style={{ backgroundColor: '#CEE1F2' }}
             onClick={scrollToIntroduction}
           >
-            Introduction
+            Demo
           </button>
           <a className="a-no-deco" href="https://www.surveymonkey.de/r/LSLCJPQ" target="_blank" rel="noreferrer">
             <button
