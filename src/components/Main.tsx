@@ -29,7 +29,7 @@ const Main: React.FC<MainProps> = ({
   return (
     <div className='main'>
       <p className='main-bold'>
-        Make e-pub files from your Miniflux list
+        Make e-pub files from your Miniflux
       </p>
 
       <div className='main-features-div-wrap'>
