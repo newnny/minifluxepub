@@ -5,6 +5,7 @@ import SinglePageMain from './components/SinglePageMain';
 import Introduction from './components/Introduction';
 import Start from './components/Start';
 import UserPage from './components/UserPage';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   const introductionRef = useRef<HTMLDivElement>(null);
@@ -30,6 +31,7 @@ const App: React.FC = () => {
         />
         <Route path="/user" element={<UserPage />} />
       </Routes>
+      <Footer />
     </div>
   )
 }

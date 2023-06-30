@@ -2,6 +2,14 @@
   font-family: 'Inter';
 }
 
+.footer {
+  font-size: 14px;
+  color: #ffe1bf;
+  background-color: #565656;
+  margin-top: auto;
+  padding: 8px;
+}
+
 .display-row {
   display: flex;
   flex-direction: row;
