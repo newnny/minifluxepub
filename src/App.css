@@ -76,14 +76,9 @@
   text-align: center;
 }
 
-.introduction-divided-page {
-  display: flex;
-  flex-direction: row;
-}
-
 .video-size {
-  width: 750px;
-  height: 500px
+  width: auto;
+  height: 600px
 }
 
 .start-bold {
@@ -378,14 +373,9 @@
     height: auto;
   }
 
-  .introduction-divided-page {
-    display: flex;
-    flex-direction: column;
-  }
-
   .video-size {
-    width: 430px;
-    height: 200px
+    width: auto;
+    height: 450px;
   }
 
   .userPage-left-section {
