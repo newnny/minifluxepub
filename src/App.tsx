@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const startRef = useRef<HTMLDivElement>(null);
 
   return (
+    <>
     <div className='App'>
       <Routes>
         <Route path="/" element={<SinglePageMain />} />
@@ -31,8 +32,10 @@ const App: React.FC = () => {
         />
         <Route path="/user" element={<UserPage />} />
       </Routes>
-      <Footer />
     </div>
+
+<Footer />
+</>
   )
 }
 

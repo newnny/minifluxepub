@@ -173,7 +173,6 @@
 .userPage-div {
   display: flex;
   flex-direction: row;
-  height: 100vh;
   padding: 10px;
 }
 
