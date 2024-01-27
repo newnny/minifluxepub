@@ -1,46 +1,18 @@
-# Getting Started with Create React App
+## Project Name
+Miniflux binder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
+This web application is designed to enhance the offline reading experience by generating E-pub files from Miniflux RSS feed. It is built using React and TypeScript, leveraging the Miniflux API for retrieving RSS feed data.
 
-## Available Scripts
+## Features
+1. **Easy E-pub Generation**: Simple and user-friendly interface for effortless E-pub file creation from Miniflux RSS feeds.
+2. **Customization**: Tailor E-pub files to your liking by selecting specific feeds, filtering content, and adjusting formatting preferences.
+3. **Seamless Offline Access**: Smart caching ensures a smooth offline reading experience, perfect for travel or areas with limited connectivity.
+4. **Cross-Platform Compatibility**: Access your personalized E-pub files on various devices, including desktops, laptops, tablets, and smartphones.
+5. **Efficient Performance**: Built with React and TypeScript for optimized resource management, resulting in faster load times and smooth transitions.
+6. **Real-time Sync**: Stay up-to-date with your favorite content as our application syncs in real-time with Miniflux RSS feeds, even when offline.
 
-In the project directory, you can run:
+Experience a user-friendly offline reading solution that puts customization and accessibility at the forefront.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Acknowledgements
+- Thanks to @jpzk Fo the inspiration.
