@@ -15,4 +15,4 @@ This web application is designed to enhance the offline reading experience by ge
 Experience a user-friendly offline reading solution that puts customization and accessibility at the forefront.
 
 ## Acknowledgements
-- Thanks to @jpzk Fo the inspiration.
+- Thanks to @jpzk for the inspiration.
